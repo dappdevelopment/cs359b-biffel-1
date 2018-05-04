@@ -2,6 +2,8 @@ pragma solidity ^0.4.21;
 import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
 contract Biffel {
+
+    address contractCreator;
     
     struct Waffle {
         uint waffleID;
@@ -16,7 +18,6 @@ contract Biffel {
     uint counter; 
 
     constructor() public {
-        balances[msg.sender] = totalSupply;
         contractCreator = msg.sender;
     }
 
@@ -33,23 +34,22 @@ contract Biffel {
         return _waffleID;
     }
 
-    function addBuyer(uint _waffleID, address buyer) public (bool success) {
+    function addBuyer(uint _waffleID) public (bool success) {
         var waffle = waffles[_waffleID];
 
         require(waffle != 0);
-        var buyerCount = waffle.buyers.length;
-        var slotCount = waffle.slotCount;
-        require(buyerCount < slotCount);
-        //require(that the buyer has enough money to pay for a slot)
+        require(waffle.buyers.length < waffle.slotCount);
+        require(msg.value > slotPrice);
 
-        waffle.buyers.push(buyer);
+        waffle.buyers.push(msg.sender);
         buyerCount += 1;
 
-        payMoney(_waffleID, buyer);
+        waffle.balances += msg.value;
 
         if (buyerCount == slotCount) {
-            startWaffle(_waffleID)
+            startWaffle(_waffleID);
         }
+
         return true;
     }
 
@@ -65,8 +65,7 @@ contract Biffel {
 
     function startWaffle(uint _waffleID) {
         var waffle = waffles[_waffleID];
-        var randInt = random.random(waffle.slotCount); //not real solidity 
-
+        var randInt = block.number % waffle.slotCount; // This isn't secure
         var winner = waffle.buyers[randInt];
         notify(winner, waffle.seller);
     }
@@ -78,35 +77,10 @@ contract Biffel {
         return uint(keccak256(entropy)%numSlots)
     }
 
-    function confirm(uint waffleID) public {
-        waffles[waffleID] = 0; // reset waffle
-        moveFunds(waffleID);
+    function moveFunds(_waffleID) {
+        var waffle = waffles[_waffleID];
+        waffle.seller.transfer(waffle.balance);
+        removeWaffle(_waffleID)
     }
-
-    function moveFunds(waffleID) {
-        var waffle = waffles[waffleID];
-
-        //move money from waffle to seller
-    }
-
-
-    // // copied from http://solidity-apis.link-blockchain.org/docs/BlobStore/ 
-    // function createID(bytes4 flags, bytes contents) external returns (bytes20 blobId) {
-    //     // Generate the blobId.
-    //     blobId = bytes20(keccak256(msg.sender, block.blockhash(block.number - 1)));
-    //     // Make sure this blobId has not been used before (could be in the same block).
-    //     while (blobInfo[blobId].blockNumber != 0) {
-    //         blobId = bytes20(keccak256(blobId));
-    //     }
-    //     // Store blob info in state.
-    //     blobInfo[blobId] = BlobInfo({
-    //         flags: flags,
-    //         revisionCount: 1,
-    //         blockNumber: uint32(block.number),
-    //         owner: (flags & ANONYMOUS != 0) ? 0 : msg.sender,
-    //     });
-    //     // Store the first revision in a log in the current block.
-    //     Store(blobId, 0, contents);
-    // }
 
 }
