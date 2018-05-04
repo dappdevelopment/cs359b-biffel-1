@@ -9,6 +9,7 @@ const ItemAPI = {
     {id: 3, name: "Yeezy4", slot_price: 10 },
     {id: 4, name: "Yeezy5", slot_price: 10 },
     {id: 5, name: "Yeezy6", slot_price: 10 },
+    {id: 6, name: "Yeezy7", slot_price: 10 },
   ],
   all: function() { return this.items},
   get: function(id) {
