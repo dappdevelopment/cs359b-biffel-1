@@ -1,5 +1,4 @@
 pragma solidity ^0.4.21;
-import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
 contract Biffel {
 
@@ -12,75 +11,73 @@ contract Biffel {
         uint32 slotCount;
         uint256 slotPrice;
         uint256 balance;
+        
+        bool isValue;
     }
 
     mapping (uint => Waffle) waffles;
-    uint counter; 
+    uint counter;
 
     constructor() public {
         contractCreator = msg.sender;
     }
 
-    function createWaffle(address _seller, uint32 _slotCount, uint256 _slotPrice) public returns uint {
+    function createWaffle(address _seller, uint32 _slotCount, uint256 _slotPrice) public returns (uint) {
         var _waffleID = counter;
         counter++;
 
         // https://coursetro.com/posts/code/102/Solidity-Mappings-&-Structs-Tutorial
         var waffle = waffles[_waffleID];
-        waffle.seller = _seller;
+        waffle.seller = msg.sender;
         waffle.slotCount = _slotCount;
         waffle.slotPrice = _slotPrice;
+        waffle.isValue = true;
 
         return _waffleID;
     }
 
-    function addBuyer(uint _waffleID) public (bool success) {
+    function addBuyer(uint _waffleID) public returns (bool success) {
         var waffle = waffles[_waffleID];
 
-        require(waffle != 0);
+        require(waffle.isValue);
         require(waffle.buyers.length < waffle.slotCount);
-        require(msg.value > slotPrice);
+        require(msg.value > waffle.slotPrice);
 
         waffle.buyers.push(msg.sender);
+        var buyerCount = waffle.buyers.length;
         buyerCount += 1;
 
-        waffle.balances += msg.value;
+        waffle.balance += msg.value;
 
-        if (buyerCount == slotCount) {
+        if (buyerCount == waffle.slotCount) {
             startWaffle(_waffleID);
         }
 
         return true;
     }
 
-    function removeWaffle(uint _waffleID) public (bool success) {
+    function removeWaffle(uint _waffleID) public returns (bool success) {
         var waffle = waffles[_waffleID];
 
-        require(waffle != 0);
+        require(waffle.isValue);
         require(msg.sender == waffle.seller);
 
-        waffles[_waffleID] = 0;
-        return true
+        waffles[_waffleID].isValue = false;
+        return true;
     }
 
     function startWaffle(uint _waffleID) {
         var waffle = waffles[_waffleID];
         var randInt = block.number % waffle.slotCount; // This isn't secure
         var winner = waffle.buyers[randInt];
-        notify(winner, waffle.seller);
+        moveFunds(_waffleID);
+        // notify(winner, waffle.seller);
     }
 
-    function generateNumber(uint numSlots) private view returns (uint winningSlot){
-        newOraclizeQuery("Oraclize query was sent, standing by for the answer..");
-        entropy = oraclize_query("URL", "xml(https://www.fueleconomy.gov/ws/rest/fuelprices).fuelPrices.diesel");
-
-        return uint(keccak256(entropy)%numSlots)
-    }
-
-    function moveFunds(_waffleID) {
+    function moveFunds(uint _waffleID) {
         var waffle = waffles[_waffleID];
         waffle.seller.transfer(waffle.balance);
-        removeWaffle(_waffleID)
+        removeWaffle(_waffleID);
     }
 
 }
