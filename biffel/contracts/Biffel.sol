@@ -22,12 +22,12 @@ contract Biffel {
         contractCreator = msg.sender;
     }
 
-    function createWaffle(address _seller, uint32 _slotCount, uint256 _slotPrice) public returns (uint) {
-        var _waffleID = counter;
+    function createWaffle(uint32 _slotCount, uint256 _slotPrice) public returns (uint) {
+        uint _waffleID = counter;
         counter++;
 
         // https://coursetro.com/posts/code/102/Solidity-Mappings-&-Structs-Tutorial
-        var waffle = waffles[_waffleID];
+        Waffle storage waffle = waffles[_waffleID];
         waffle.seller = msg.sender;
         waffle.slotCount = _slotCount;
         waffle.slotPrice = _slotPrice;
@@ -36,15 +36,15 @@ contract Biffel {
         return _waffleID;
     }
 
-    function addBuyer(uint _waffleID) public returns (bool success) {
-        var waffle = waffles[_waffleID];
+    function addBuyer(uint _waffleID) public payable returns (bool success) {
+        Waffle storage waffle = waffles[_waffleID];
 
         require(waffle.isValue);
         require(waffle.buyers.length < waffle.slotCount);
         require(msg.value > waffle.slotPrice);
 
         waffle.buyers.push(msg.sender);
-        var buyerCount = waffle.buyers.length;
+        uint buyerCount = waffle.buyers.length;
         buyerCount += 1;
 
         waffle.balance += msg.value;
@@ -57,7 +57,7 @@ contract Biffel {
     }
 
     function removeWaffle(uint _waffleID) public returns (bool success) {
-        var waffle = waffles[_waffleID];
+        Waffle storage waffle = waffles[_waffleID];
 
         require(waffle.isValue);
         require(msg.sender == waffle.seller);
@@ -66,16 +66,16 @@ contract Biffel {
         return true;
     }
 
-    function startWaffle(uint _waffleID) {
-        var waffle = waffles[_waffleID];
-        var randInt = block.number % waffle.slotCount; // This isn't secure
-        var winner = waffle.buyers[randInt];
+    function startWaffle(uint _waffleID) public {
+        Waffle storage waffle = waffles[_waffleID];
+        uint randInt = block.number % waffle.slotCount; // This isn't secure
+        address winner = waffle.buyers[randInt];
         moveFunds(_waffleID);
         // notify(winner, waffle.seller);
     }
 
-    function moveFunds(uint _waffleID) {
-        var waffle = waffles[_waffleID];
+    function moveFunds(uint _waffleID) private {
+        Waffle storage waffle = waffles[_waffleID];
         waffle.seller.transfer(waffle.balance);
         removeWaffle(_waffleID);
     }
