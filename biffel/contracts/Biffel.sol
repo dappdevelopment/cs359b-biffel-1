@@ -41,7 +41,7 @@ contract Biffel {
 
         require(waffle.isValue);
         require(waffle.buyers.length < waffle.slotCount);
-        require(msg.value > waffle.slotPrice);
+        require(msg.value >= waffle.slotPrice);
 
         waffle.buyers.push(msg.sender);
         uint buyerCount = waffle.buyers.length;
