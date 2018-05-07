@@ -1,5 +1,4 @@
 pragma solidity ^0.4.21;
-import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
 contract Biffel {
     
@@ -69,13 +68,6 @@ contract Biffel {
 
         var winner = waffle.buyers[randInt];
         notify(winner, waffle.seller);
-    }
-
-    function generateNumber(uint numSlots) private view returns (uint winningSlot){
-        newOraclizeQuery("Oraclize query was sent, standing by for the answer..");
-        entropy = oraclize_query("URL", "xml(https://www.fueleconomy.gov/ws/rest/fuelprices).fuelPrices.diesel");
-
-        return uint(keccak256(entropy)%numSlots)
     }
 
     function confirm(uint waffleID) public {
