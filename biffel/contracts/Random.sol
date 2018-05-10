@@ -22,7 +22,7 @@ contract RandomNumber is usingOraclize{
  //        return uint(keccak256(entropy)%numSlots)
  //    }
 
-    function __callback(bytes32 _queryId, string _result, bytes _proof){
+    function __callback(bytes32 _queryId, string _result, bytes _proof) returns (uint num){
     	if (msg.sender != oraclize_cbAddress()) throw;
         
         if (oraclize_randomDS_proofVerify__returnCode(_queryId, _result, _proof) != 0) {
@@ -30,12 +30,11 @@ contract RandomNumber is usingOraclize{
         } else {
             // proof has succeeded
             
-            newRandomNumber_bytes(bytes(_result)); // resulting random bytes
             
             // convert to uint
             uint maxRange = 2**(8* 7);
             uint randomNumber = uint(sha3(_result)) % maxRange; 
-            newRandomNumber_uint(randomNumber); 
+            randomNumberGenerated(randomNumber)
 
     }
 

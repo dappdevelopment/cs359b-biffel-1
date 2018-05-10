@@ -23,15 +23,21 @@ contract Biffel {
     }
 
     function createWaffle(uint32 _slotCount, uint256 _slotPrice) public returns (uint) {
-        uint _waffleID = counter;
-        counter++;
+        uint _waffleID = block.number;
+        
+        address[] memory emptyBuyer = new address[](_slotCount);
+        
+        Waffle memory waffle = Waffle(_waffleID,msg.sender,emptyBuyer,_slotCount,_slotPrice,0,true);
+        
+        waffles[_waffleID] = waffle;
 
         // https://coursetro.com/posts/code/102/Solidity-Mappings-&-Structs-Tutorial
-        Waffle storage waffle = waffles[_waffleID];
-        waffle.seller = msg.sender;
-        waffle.slotCount = _slotCount;
-        waffle.slotPrice = _slotPrice;
-        waffle.isValue = true;
+        // waffles[_waffleID].seller = msg.sender;
+        // waffles[_waffleID].slotCount = _slotCount;
+        // waffles[_waffleID].slotPrice = _slotPrice;
+        // waffles[_waffleID].isValue = true;
+        
+        // Waffle storage waffle = waffles[_waffleID];
 
         return _waffleID;
     }
@@ -68,8 +74,12 @@ contract Biffel {
 
     function startWaffle(uint _waffleID) public {
         Waffle storage waffle = waffles[_waffleID];
-        uint randInt = block.number % waffle.slotCount; // This isn't secure
-        address winner = waffle.buyers[randInt];
+        
+        uint blockNumber = block.number;
+        bytes32 hash = keccak256(blockNumber);
+        uint intHash = uint(hash);
+        uint randInt = intHash % waffles[_waffleID].slotCount; // This isn't secure
+        address winner = waffles[_waffleID].buyers[randInt];
         moveFunds(_waffleID);
         // notify(winner, waffle.seller);
     }
