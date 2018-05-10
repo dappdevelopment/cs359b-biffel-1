@@ -1,6 +1,8 @@
 pragma solidity ^0.4.21;
 
 contract Biffel {
+
+    address contractCreator;
     
     struct Waffle {
         uint waffleID;
@@ -9,96 +11,73 @@ contract Biffel {
         uint32 slotCount;
         uint256 slotPrice;
         uint256 balance;
+        
+        bool isValue;
     }
 
     mapping (uint => Waffle) waffles;
-    uint counter; 
+    uint counter;
 
     constructor() public {
-        balances[msg.sender] = totalSupply;
         contractCreator = msg.sender;
     }
 
-    function createWaffle(address _seller, uint32 _slotCount, uint256 _slotPrice) public returns uint {
-        var _waffleID = counter;
+    function createWaffle(uint32 _slotCount, uint256 _slotPrice) public returns (uint) {
+        uint _waffleID = counter;
         counter++;
 
         // https://coursetro.com/posts/code/102/Solidity-Mappings-&-Structs-Tutorial
-        var waffle = waffles[_waffleID];
-        waffle.seller = _seller;
+        Waffle storage waffle = waffles[_waffleID];
+        waffle.seller = msg.sender;
         waffle.slotCount = _slotCount;
         waffle.slotPrice = _slotPrice;
+        waffle.isValue = true;
 
         return _waffleID;
     }
 
-    function addBuyer(uint _waffleID, address buyer) public (bool success) {
-        var waffle = waffles[_waffleID];
+    function addBuyer(uint _waffleID) public payable returns (bool success) {
+        Waffle storage waffle = waffles[_waffleID];
 
-        require(waffle != 0);
-        var buyerCount = waffle.buyers.length;
-        var slotCount = waffle.slotCount;
-        require(buyerCount < slotCount);
-        //require(that the buyer has enough money to pay for a slot)
+        require(waffle.isValue);
+        require(waffle.buyers.length < waffle.slotCount);
+        require(msg.value >= waffle.slotPrice);
 
-        waffle.buyers.push(buyer);
+        waffle.buyers.push(msg.sender);
+        uint buyerCount = waffle.buyers.length;
         buyerCount += 1;
 
-        payMoney(_waffleID, buyer);
+        waffle.balance += msg.value;
 
-        if (buyerCount == slotCount) {
-            startWaffle(_waffleID)
+        if (buyerCount == waffle.slotCount) {
+            startWaffle(_waffleID);
         }
+
         return true;
     }
 
-    function removeWaffle(uint _waffleID) public (bool success) {
-        var waffle = waffles[_waffleID];
+    function removeWaffle(uint _waffleID) public returns (bool success) {
+        Waffle storage waffle = waffles[_waffleID];
 
-        require(waffle != 0);
+        require(waffle.isValue);
         require(msg.sender == waffle.seller);
 
-        waffles[_waffleID] = 0;
-        return true
+        waffles[_waffleID].isValue = false;
+        return true;
     }
 
-    function startWaffle(uint _waffleID) {
-        var waffle = waffles[_waffleID];
-        var randInt = random.random(waffle.slotCount); //not real solidity 
-
-        var winner = waffle.buyers[randInt];
-        notify(winner, waffle.seller);
+    function startWaffle(uint _waffleID) public {
+        Waffle storage waffle = waffles[_waffleID];
+        uint randInt = block.number % waffle.slotCount; // This isn't secure
+        address winner = waffle.buyers[randInt];
+        moveFunds(_waffleID);
+        // notify(winner, waffle.seller);
     }
 
-    function confirm(uint waffleID) public {
-        waffles[waffleID] = 0; // reset waffle
-        moveFunds(waffleID);
+    function moveFunds(uint _waffleID) private {
+        Waffle storage waffle = waffles[_waffleID];
+        waffle.seller.transfer(waffle.balance);
+        removeWaffle(_waffleID);
     }
-
-    function moveFunds(waffleID) {
-        var waffle = waffles[waffleID];
-
-        //move money from waffle to seller
-    }
-
-
-    // // copied from http://solidity-apis.link-blockchain.org/docs/BlobStore/ 
-    // function createID(bytes4 flags, bytes contents) external returns (bytes20 blobId) {
-    //     // Generate the blobId.
-    //     blobId = bytes20(keccak256(msg.sender, block.blockhash(block.number - 1)));
-    //     // Make sure this blobId has not been used before (could be in the same block).
-    //     while (blobInfo[blobId].blockNumber != 0) {
-    //         blobId = bytes20(keccak256(blobId));
-    //     }
-    //     // Store blob info in state.
-    //     blobInfo[blobId] = BlobInfo({
-    //         flags: flags,
-    //         revisionCount: 1,
-    //         blockNumber: uint32(block.number),
-    //         owner: (flags & ANONYMOUS != 0) ? 0 : msg.sender,
-    //     });
-    //     // Store the first revision in a log in the current block.
-    //     Store(blobId, 0, contents);
-    // }
 
 }
