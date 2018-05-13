@@ -26,7 +26,6 @@ const DetailedItem = (props) => {
     <div>
       <h1>{props.item.name} (#{props.item.id})</h1>
       <h2>Slot Price: {props.item.slotPrice}</h2>
-      <Link to='/items'>Back</Link>
     </div>
   )
 }

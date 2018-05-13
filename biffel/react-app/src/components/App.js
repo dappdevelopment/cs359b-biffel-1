@@ -1,10 +1,11 @@
 import React from 'react'
-//import Header from './Header'
-import LoggedIn from './LoggedIn'
+import Header from './Header'
+import Home from './Home'
 import Login from './Login/Login'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
 const App = (props) => {
   if(props.user.email === undefined){
@@ -16,7 +17,8 @@ const App = (props) => {
   }
   return (
     <div>
-      <LoggedIn/>
+      <Header/>
+      <Home/>
     </div>
   )
 }
@@ -31,6 +33,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps, null
-)(App);
+)(App));
