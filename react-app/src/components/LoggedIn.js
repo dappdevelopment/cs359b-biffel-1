@@ -9,7 +9,7 @@ import DetailedItem from './DetailedItem'
 // and /schedule routes will match any pathname that starts
 // with /roster or /schedule. The / route will only match
 // when the pathname is exactly the string "/"
-const Main = () => (
+const LoggedIn = () => (
   <main>
     <Switch>
       <Route exact path='/' component={Home}/>
@@ -19,4 +19,4 @@ const Main = () => (
   </main>
 )
 
-export default Main
+export default LoggedIn
