@@ -6,9 +6,9 @@ export default function userReducer(state = initialState.user, action) {
     case USER_LOGIN_ATTEMPT:
       return state;
     case USER_LOGIN_FAILURE:
-      return {...state, userAttemptedLogin: true};
+      return {...state, loginErrorReason: action.reason};
     case USER_LOGIN_SUCCESS:
-      return {...state, userAttemptedLogin: true, ...action.user}
+      return {...state, ...action.user}
     default:
       return state;
   }

@@ -3,12 +3,12 @@
 // solution would be more appropriate.
 const ItemAPI = {
   users: [
-    {id: 0, username: 'jaimedeverall', password: 'password', name: 'Jaime Deverall', eth_address: '5667778'},
-    {id: 1, username: 'jiwoolee', password: 'password', name: 'Jiwoo Lee', eth_address: '797069960'},
-    {id: 2, username: 'miguelayala', password: 'password', name: 'Miguel Ayala', eth_address: '483895955'},
+    {id: 0, email: 'jaimedeverall@gmail.com', password: 'password', name: 'Jaime Deverall', eth_address: '5667778'},
+    {id: 1, email: 'jiwoolee@gmail.com', password: 'password', name: 'Jiwoo Lee', eth_address: '797069960'},
+    {id: 2, email: 'miguelayala@gmail.com', password: 'password', name: 'Miguel Ayala', eth_address: '483895955'},
   ],
-  findUser: function(username, password) {
-    const isUser = user => user.password = password && user.username === username
+  findUser: function(email, password) {
+    const isUser = user => (user.password === password) && (user.email === email)
     return this.users.find(isUser);
   },
   items: [

@@ -12,7 +12,7 @@ const DetailedItem = (props) => {
 
   let id = parseInt(props.match.params.id);
 
-  if (id === NaN) {
+  if (isNaN(id)) {
     return <div>Sorry, but no item</div>
   }
 

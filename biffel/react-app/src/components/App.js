@@ -1,13 +1,13 @@
 import React from 'react'
 //import Header from './Header'
 import LoggedIn from './LoggedIn'
-import Login from './Login'
+import Login from './Login/Login'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 
 const App = (props) => {
-  if(props.user.username === undefined){
+  if(props.user.email === undefined){
     return (
       <div>
         <Login/>
