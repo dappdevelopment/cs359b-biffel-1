@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import ItemListing from './ItemListing'
 import DetailedItem from './DetailedItem'
-import SellItem from './SellItem'
+import SellItem from './SellItem/SellItem'
 import Profile from './Profile'
 
 const Home = () => (

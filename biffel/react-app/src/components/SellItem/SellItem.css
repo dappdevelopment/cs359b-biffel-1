@@ -1,0 +1,10 @@
+@media all and (min-width: 480px) {
+  .SellItem {
+    padding: 40px 0;
+  }
+
+  .SellItem form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+}
