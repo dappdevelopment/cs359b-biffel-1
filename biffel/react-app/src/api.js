@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 var $ = require ('jquery');
+
 //ws://localhost:3000
 //https://biffel.herokuapp.com/
 var web3 = new Web3(Web3.givenProvider || "https://biffel.herokuapp.com/");
@@ -8,22 +9,9 @@ var contract;
 var userAccount;
 var contractAddress;
 
-// $.getJSON('/build/contracts/Biffel.json')
-// .then(res => console.log('contractDataPromise', res))
-//
-// web3.eth.net.getId()
-// .then(res => console.log('networkIdPromise', res))
-//
-// web3.eth.getAccounts()
-// .then(res => console.log('accountsPromise', res))
-
-
 var contractDataPromise = $.getJSON('/build/contracts/Biffel.json');
-//console.log('contractDataPromise', contractDataPromise)
-var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
-//console.log('networkIdPromise', networkIdPromise);
+var networkIdPromise = web3.eth.net.getId(); // resolves on the current network i
 var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
-//console.log('accountsPromise', accountsPromise);
 
 Promise.all([contractDataPromise, networkIdPromise, accountsPromise])
     .then(function initApp(results) {
