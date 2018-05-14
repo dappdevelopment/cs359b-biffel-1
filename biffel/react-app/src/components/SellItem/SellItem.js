@@ -33,7 +33,7 @@ class SellItem extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.sellItem(this.state.title, this.state.slotPrice, this.state.numberOfSlots);
+    this.props.createWaffle(this.state.title, this.state.slotPrice, this.state.numberOfSlots);
   }
 
   render() {
