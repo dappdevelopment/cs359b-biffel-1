@@ -1,20 +1,36 @@
 import Web3 from 'web3';
 var $ = require ('jquery');
 //ws://localhost:3000
-var web3 = new Web3(Web3.givenProvider || "https://biffel.herokuapp.com/");
+//https://biffel.herokuapp.com/
+var web3 = new Web3(Web3.givenProvider || "ws://localhost:3000");
 
 var contract;
 var userAccount;
 var contractAddress;
 
+// $.getJSON('/build/contracts/Biffel.json')
+// .then(res => console.log('contractDataPromise', res))
+//
+// web3.eth.net.getId()
+// .then(res => console.log('networkIdPromise', res))
+//
+// web3.eth.getAccounts()
+// .then(res => console.log('accountsPromise', res))
+
+
 var contractDataPromise = $.getJSON('/build/contracts/Biffel.json');
+//console.log('contractDataPromise', contractDataPromise)
 var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
+//console.log('networkIdPromise', networkIdPromise);
 var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
+//console.log('accountsPromise', accountsPromise);
 
 Promise.all([contractDataPromise, networkIdPromise, accountsPromise])
     .then(function initApp(results) {
         var contractData = results[0];  // resolved value of contractDataPromise
+        console.log('contractData', contractData)
         var networkId = results[1];     // resolved value of networkIdPromise
+        console.log('networkId', networkId);
         var accounts = results[2];      // resolved value of accountsPromise
         userAccount = accounts[0];
         console.log("printing userAccount in metamask.js: " + userAccount);
@@ -24,6 +40,7 @@ Promise.all([contractDataPromise, networkIdPromise, accountsPromise])
         }
 
         contractAddress = contractData.networks[networkId].address;
+        console.log('contractAddress', contractAddress);
         contract = new web3.eth.Contract(contractData.abi, contractAddress);
     }).catch(console.error);
 
