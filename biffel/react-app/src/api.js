@@ -1,19 +1,36 @@
 // A simple data API that will be used to get the data for our
 // components. On a real website, a more robust data fetching
 // solution would be more appropriate.
-console.log("hello world");
-var Web3 = require ('web3');
-if (typeof web3 == 'undefined') throw 'No web3 detected. Is Metamask/Mist being used?';
-var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
-// web3 = new Web3(web3.currentProvider); // MetaMask injected Ethereum provider
-// console.log("Using web3 version: " + Web3.version);
+function app() {
+  if (typeof web3 == 'undefined') throw 'No web3 detected. Is Metamask/Mist being used?';
+  web3 = new Web3(web3.currentProvider); // MetaMask injected Ethereum provider
+    console.log("Using web3 version: " + Web3.version); // why doesn't this work
+    console.log(web3.version)
 
-var contract;
-var userAccount;
-var $ = require ('jquery');
-var contractDataPromise = $.getJSON('Biffel.json');
-var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
-var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
+    var contract;
+    var userAccount;
+    var contractAddress; 
+  
+    var contractDataPromise = $.getJSON('build/contracts/Biffle.json');
+    var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
+    var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
+
+    Promise.all([contractDataPromise, networkIdPromise, accountsPromise])
+        .then(function initApp(results) {
+            var contractData = results[0];  // resolved value of contractDataPromise
+            var networkId = results[1];     // resolved value of networkIdPromise
+            var accounts = results[2];      // resolved value of accountsPromise
+            userAccount = accounts[0];
+            console.log("printing userAccount in metamask.js: " + userAccount); 
+
+            if (!(networkId in contractData.networks)) {
+                throw new Error("Contract not found in selected Ethereum network on MetaMask.");
+            }
+
+            contractAddress = contractData.networks[networkId].address;
+            contract = new web3.eth.Contract(contractData.abi, contractAddress);
+        }).catch(console.error);
+}
 
 const ItemAPI = {
   users: [
@@ -39,5 +56,7 @@ const ItemAPI = {
     return this.items.find(isItem)
   }
 }
+
+$(document).ready(app);
 
 export default ItemAPI
