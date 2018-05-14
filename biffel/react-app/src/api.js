@@ -6,7 +6,7 @@ var Web3 = require ('web3');
 if (typeof web3 == 'undefined') {
   throw 'No web3 detected. Is Metamask/Mist being used?';
 } else {
-  this.web3 = web3
+  // this.web3 = web3
   console.log("we good");
 }
 this.web3 = new Web3(this.web3.currentProvider); // MetaMask injected Ethereum provider
