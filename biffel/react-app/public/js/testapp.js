@@ -27,6 +27,11 @@ function app() {
             contractAddress = contractData.networks[networkId].address;
             contract = new web3.eth.Contract(contractData.abi, contractAddress);
         }).catch(console.error);
+
+    $("#").click(function() {
+        console.log("userAccount in metamask.js click function:" + userAccount); 
+        localStorage.setItem('userAccount', userAccount);
+    });
 }
 
 $(document).ready(app);

@@ -66,6 +66,7 @@ class SellItem extends Component {
             />
           </FormGroup>
           <Button
+            id="create"
             block
             bsSize="large"
             disabled={!this.validateForm()}
