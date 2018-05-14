@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
+import {Panel} from 'react-bootstrap';
 
 // The Player looks up the player using the number parsed from
 // the URL's pathname. If no player is found with the given
@@ -10,9 +11,24 @@ import PropTypes from 'prop-types';
 const Profile = (props) => {
   return (
     <div>
-      <h1>this.props.user.email</h1>
-      <h1>this.props.user.name</h1>
-      <h1>this.props.user.eth_address</h1>
+      <Panel>
+        <Panel.Heading>
+          <Panel.Title componentClass="h3">Email</Panel.Title>
+        </Panel.Heading>
+        <Panel.Body>{props.user.email}</Panel.Body>
+      </Panel>
+      <Panel>
+        <Panel.Heading>
+          <Panel.Title componentClass="h3">Name</Panel.Title>
+        </Panel.Heading>
+        <Panel.Body>{props.user.name}</Panel.Body>
+      </Panel>
+      <Panel>
+        <Panel.Heading>
+          <Panel.Title componentClass="h3">Ethereum Address</Panel.Title>
+        </Panel.Heading>
+        <Panel.Body>{props.user.eth_address}</Panel.Body>
+      </Panel>
     </div>
   )
 }
