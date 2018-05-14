@@ -7,7 +7,7 @@ export default function userLogin(email, password) {
     //eventually this will be a database call.
     var user = api.findUser(email, password)
     if(user === undefined){
-      return dispatch(userLoginFailure('Incorrect email or password'))
+      return dispatch(userLoginFailure('Incorrect email or password!'))
     }
     return dispatch(userLoginSuccess(user))
   };
