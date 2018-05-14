@@ -68,7 +68,7 @@ const ItemAPI = {
     return this.items.find(isItem)
   },
   createWaffle: function(title, slotPrice, numberOfSlots){
-    return contract.methods.createWaffle(numberOfSlots, slotPrice);
+    return contract.methods.createWaffle(numberOfSlots, slotPrice).send({from: userAccount});
   }
 }
 
