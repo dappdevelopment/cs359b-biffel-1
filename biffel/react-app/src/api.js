@@ -1,16 +1,16 @@
 // A simple data API that will be used to get the data for our
 // components. On a real website, a more robust data fetching
 // solution would be more appropriate.
-console.log("hello world");
-var Web3 = require("web3");
-if (typeof web3 == 'undefined') throw 'No web3 detected. Is Metamask/Mist being used?';
-// web3 = new Web3(web3.currentProvider); // MetaMask injected Ethereum provider
-// console.log("Using web3 version: " + Web3.version);
+// console.log("hello world");
+// var Web3 = require("web3");
+// if (typeof web3 == 'undefined') throw 'No web3 detected. Is Metamask/Mist being used?';
+// // web3 = new Web3(web3.currentProvider); // MetaMask injected Ethereum provider
+// // console.log("Using web3 version: " + Web3.version);
 
-var contract;
-var userAccount;
-var $ = require ('jquery');
-var contractDataPromise = $.getJSON('build/contracts/Biffel.json');
+// var contract;
+// var userAccount;
+// var $ = require ('jquery');
+// var contractDataPromise = $.getJSON('build/contracts/Biffel.json');
 // var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
 // var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
 
