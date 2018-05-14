@@ -2,7 +2,7 @@ import Web3 from 'web3';
 var $ = require ('jquery');
 //ws://localhost:3000
 //https://biffel.herokuapp.com/
-var web3 = new Web3(Web3.givenProvider || "ws://localhost:3000");
+var web3 = new Web3(Web3.givenProvider || "https://biffel.herokuapp.com/");
 
 var contract;
 var userAccount;
