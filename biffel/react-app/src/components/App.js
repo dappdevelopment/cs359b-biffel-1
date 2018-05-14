@@ -6,8 +6,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+import api from '../api.js'
 
 const App = (props) => {
+  var result = api.checkWeb3();
+  console.log('web3', result);
+
   if(props.user.email === undefined){
     return (
       <div>
