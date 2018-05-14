@@ -7,7 +7,7 @@ function app() {
     var contract;
     var userAccount;
     var contractAddress; 
-  
+
     var contractDataPromise = $.getJSON('build/contracts/Biffel.json');
     var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
     var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
@@ -29,7 +29,7 @@ function app() {
         }).catch(console.error);
 
     $("#create").click(function() {
-        console.log("we good"); 
+
     });
 }
 
