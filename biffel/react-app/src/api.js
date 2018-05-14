@@ -9,7 +9,7 @@ console.log("hello world");
 // var contract;
 // var userAccount;
 
-// var contractDataPromise = $.getJSON('Biffel.json');
+var contractDataPromise = $.getJSON('Biffel.json');
 // var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
 // var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
 
