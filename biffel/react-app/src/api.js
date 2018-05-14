@@ -4,6 +4,7 @@
 console.log("hello world");
 var Web3 = require ('web3');
 if (typeof web3 == 'undefined') throw 'No web3 detected. Is Metamask/Mist being used?';
+var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 // web3 = new Web3(web3.currentProvider); // MetaMask injected Ethereum provider
 // console.log("Using web3 version: " + Web3.version);
 
@@ -11,8 +12,8 @@ var contract;
 var userAccount;
 var $ = require ('jquery');
 var contractDataPromise = $.getJSON('Biffel.json');
-// var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
-// var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
+var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
+var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
 
 const ItemAPI = {
   users: [
