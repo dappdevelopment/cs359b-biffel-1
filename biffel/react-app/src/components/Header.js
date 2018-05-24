@@ -29,7 +29,7 @@ const Header = () => (
               <NavItem>Buy Slots</NavItem>
             </LinkContainer>
             <LinkContainer to="/sell">
-              <NavItem>Create Waffle</NavItem>
+              <NavItem>Create Biffel</NavItem>
             </LinkContainer>
             <LinkContainer to="/profile">
               <NavItem>Profile</NavItem>

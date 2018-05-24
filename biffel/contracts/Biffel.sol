@@ -1,11 +1,11 @@
 pragma solidity ^0.4.21;
 
-contract Biffel {
+contract BiffelContract {
 
     address contractCreator;
     
-    struct Waffle {
-        uint waffleID;
+    struct Biffel {
+        uint biffelID;
         address seller;
         address[] buyers;
         uint32 slotCount;
@@ -15,79 +15,80 @@ contract Biffel {
         bool isValue;
     }
 
-    mapping (uint => Waffle) waffles;
+    mapping (uint => Biffel) biffels;
     uint counter;
 
     constructor() public {
         contractCreator = msg.sender;
     }
 
-    function createWaffle(uint32 _slotCount, uint256 _slotPrice) public returns (uint) {
-        uint _waffleID = block.number;
+    function createBiffel(uint32 _slotCount, uint256 _slotPrice) public returns (uint) {
+        uint _biffelID = block.number;
         
-        address[] memory emptyBuyer = new address[](_slotCount);
+        Biffel memory biffel = Biffel(_biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,true);
         
-        Waffle memory waffle = Waffle(_waffleID,msg.sender,emptyBuyer,_slotCount,_slotPrice,0,true);
-        
-        waffles[_waffleID] = waffle;
+        biffels[_biffelID] = biffel;
 
-        // https://coursetro.com/posts/code/102/Solidity-Mappings-&-Structs-Tutorial
-        // waffles[_waffleID].seller = msg.sender;
-        // waffles[_waffleID].slotCount = _slotCount;
-        // waffles[_waffleID].slotPrice = _slotPrice;
-        // waffles[_waffleID].isValue = true;
-        
-        // Waffle storage waffle = waffles[_waffleID];
-
-        return _waffleID;
+        return _biffelID;
     }
 
-    function addBuyer(uint _waffleID) public payable returns (bool success) {
-        Waffle storage waffle = waffles[_waffleID];
+    function addBuyer(uint _biffelID) public payable returns (bool success) {
+        Biffel storage biffel = biffels[_biffelID];
+        
+        require(msg.sender != biffel.seller);
+        require(biffel.isValue);
+        require(biffel.buyers.length < biffel.slotCount);
+        require(msg.value >= biffel.slotPrice);
 
-        require(waffle.isValue);
-        require(waffle.buyers.length < waffle.slotCount);
-        require(msg.value >= waffle.slotPrice);
+        biffel.buyers.push(msg.sender);
+        uint buyerCount = biffel.buyers.length;
 
-        waffle.buyers.push(msg.sender);
-        uint buyerCount = waffle.buyers.length;
-        buyerCount += 1;
+        biffel.balance += msg.value;
+        
+        biffels[_biffelID] = biffel;
 
-        waffle.balance += msg.value;
-
-        if (buyerCount == waffle.slotCount) {
-            startWaffle(_waffleID);
+        if (buyerCount == biffel.slotCount) {
+            startBiffel(_biffelID);
         }
 
         return true;
     }
 
-    function removeWaffle(uint _waffleID) public returns (bool success) {
-        Waffle storage waffle = waffles[_waffleID];
+    /* Removes a biffel
+    */
+    function userRemoveBiffel(uint _biffelID) public returns (bool success) {
 
-        require(waffle.isValue);
-        require(msg.sender == waffle.seller);
+        require(msg.sender == biffels[_biffelID].seller);
 
-        waffles[_waffleID].isValue = false;
+        delete biffels[_biffelID];
         return true;
     }
+    
+    /* This is different from userRemoveBiffel
+    */
 
-    function startWaffle(uint _waffleID) public {
-        Waffle storage waffle = waffles[_waffleID];
+    function autoDestroyBiffel(uint _biffelID) public returns (bool success) {
+        delete biffels[_biffelID];
+        return true;
+    }
+    
+    
+    function startBiffel(uint _biffelID) public {
+        Biffel storage biffel = biffels[_biffelID];
         
         uint blockNumber = block.number;
         bytes32 hash = keccak256(blockNumber);
         uint intHash = uint(hash);
-        uint randInt = intHash % waffles[_waffleID].slotCount; // This isn't secure
-        address winner = waffles[_waffleID].buyers[randInt];
-        moveFunds(_waffleID);
-        // notify(winner, waffle.seller);
+        uint randInt = intHash % biffels[_biffelID].slotCount; // This isn't secure
+        address winner = biffel.buyers[randInt];
+        moveFunds(_biffelID);
+        //notify(winner, biffel.seller);
     }
 
-    function moveFunds(uint _waffleID) private {
-        Waffle storage waffle = waffles[_waffleID];
-        waffle.seller.transfer(waffle.balance);
-        removeWaffle(_waffleID);
+    function moveFunds(uint _biffelID) private {
+        Biffel storage biffel = biffels[_biffelID];
+        biffel.seller.transfer(biffel.balance);
+        autoDestroyBiffel(_biffelID);
     }
 
 }
