@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import createWaffle from '../../actions/createWaffle'
+import createBiffel from '../../actions/createBiffel'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { Button, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
@@ -33,7 +33,7 @@ class SellItem extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.createWaffle(this.state.title, this.state.slotPrice, this.state.numberOfSlots);
+    this.props.createBiffel(this.state.title, this.state.slotPrice, this.state.numberOfSlots);
   }
 
   render() {
@@ -71,7 +71,7 @@ class SellItem extends Component {
             disabled={!this.validateForm()}
             type="submit"
           >
-            Create Waffle
+            Create Biffel
           </Button>
         </form>
       </div>
@@ -91,7 +91,7 @@ class SellItem extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createWaffle: bindActionCreators(createWaffle, dispatch)
+    createBiffel: bindActionCreators(createBiffel, dispatch)
   };
 }
 
