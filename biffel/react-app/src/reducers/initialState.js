@@ -1,5 +1,6 @@
 export default {
-  items: [],
+  items: null,
   item: null,
-  user: {}
+  web3: null,
+  createBiffel: {success: false, error: ''}
 };

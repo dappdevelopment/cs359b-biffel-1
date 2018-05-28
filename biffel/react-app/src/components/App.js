@@ -6,22 +6,36 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+import setupConnection from '../actions/setupConnection';
 
 const App = (props) => {
-  if(props.user.email === undefined){
+  //props.web3.userAccount === undefined && props.web3.message === undefined
+  if(props.web3 === null){
+    props.setupConnection();
+  }
+  if(props.web3.loading){
     return (
       <div>
-        <Login/>
+        {'Loading'}
+      </div>
+    )
+  }
+  if(props.web3.userAccount){
+    return (
+      <div>
+        <Header/>
+        <Home/>
       </div>
     )
   }
   return (
     <div>
-      <Header/>
-      <Home/>
+      {props.web3.error}
     </div>
   )
 }
+
+//<Header/>
 
 App.propTypes = {
   user: PropTypes.object
@@ -29,10 +43,16 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    web3: state.web3
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setupConnection: bindActionCreators(setupConnection, dispatch)
   };
 }
 
 export default withRouter(connect(
-  mapStateToProps, null
+  mapStateToProps, mapDispatchToProps
 )(App));

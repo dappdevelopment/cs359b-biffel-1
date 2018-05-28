@@ -15,9 +15,9 @@ class SellItem extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      title: "",
-      slotPrice: 0,
-      numberOfSlots: 0
+      title: props.title || "",
+      slotPrice: props.slotPrice || 0,
+      numberOfSlots: props.numberOfSlots || 0
     };
   }
 
@@ -33,7 +33,8 @@ class SellItem extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.createBiffel(this.state.title, this.state.slotPrice, this.state.numberOfSlots);
+    var values = {...this.state};
+    this.props.createBiffel(values, this.props.web3);
   }
 
   render() {
@@ -71,23 +72,47 @@ class SellItem extends Component {
             disabled={!this.validateForm()}
             type="submit"
           >
-            Create Biffel
+            {'Create Biffel'}
           </Button>
+          {this.props.error && !this.props.success ?
+            (
+              <Alert bsStyle='danger'>
+                {this.props.error}
+              </Alert>
+            )
+            :
+            null
+          }
+          {this.props.success && !this.props.error ?
+            (
+              <Alert bsStyle='success'>
+                {'Biffel created successful'}
+              </Alert>
+            )
+            :
+            null
+          }
         </form>
       </div>
     );
   }
 }
 
-// SellItem.propTypes = {
-//   user: PropTypes.object,
-// };
-//
-// function mapStateToProps(state) {
-//   return {
-//     user: state.user
-//   };
-// }
+SellItem.propTypes = {
+  values: PropTypes.object,
+  web3: PropTypes.object,
+  success: PropTypes.boolean,
+  error: PropTypes.string
+};
+
+function mapStateToProps(state) {
+  return {
+    web3: state.web3,
+    values: state.createBiffel.values,
+    error: state.createBiffel.error,
+    success: state.createBiffel.success
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -96,6 +121,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SellItem);

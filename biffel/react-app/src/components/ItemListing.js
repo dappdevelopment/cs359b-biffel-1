@@ -8,8 +8,9 @@ import PropTypes from 'prop-types';
 // The FullRoster iterates over all of the players and creates
 // a link to their profile page.
 const ItemListing = (props) => {
-  console.log('items', props.items);
-  props.fetchCatalog();
+  if(props.items === null){
+    props.fetchCatalog(props.web3);
+  }
   return (
     <div>
       <ul>
@@ -25,14 +26,15 @@ const ItemListing = (props) => {
   )
 }
 
-
 ItemListing.propTypes = {
-  items: PropTypes.array
+  items: PropTypes.array,
+  web3: PropTypes.object
 };
 
 function mapStateToProps(state) {
   return {
-    items: state.items
+    items: state.items,
+    web3: state.web3
   };
 }
 

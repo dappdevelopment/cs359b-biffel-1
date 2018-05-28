@@ -1,14 +1,19 @@
 import userLoginFailure from './userLoginFailure'
 import userLoginSuccess from './userLoginSuccess'
-import api from '../api.js'
 
 export default function userLogin(email, password) {
+  var values = {email, password}
   return dispatch => {
-    //eventually this will be a database call.
-    var user = api.findUser(email, password)
-    if(user === undefined){
-      return dispatch(userLoginFailure('Incorrect email or password.'))
-    }
-    return dispatch(userLoginSuccess(user))
-  };
+    return fetch('/login', {
+      body: JSON.stringify(values),
+      method: 'POST',
+    })
+    .then(response => response.json())
+    .then(res => {
+      if(res.name){
+        return dispatch(userLoginSuccess(res));
+      }
+      return dispatch(userLoginFailure(res.error || 'Incorrect email or password'));
+    })
+  }
 }
