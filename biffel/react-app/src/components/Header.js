@@ -2,19 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import initiateCreateBiffel from '../actions/initiateCreateBiffel';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import PropTypes from 'prop-types';
 
-// The Header creates links that can be used to navigate
-// between routes.
-const Header = () => (
-  // <header>
-  //   <nav>
-  //     <ul>
-  //       <li><Link to='/buy'>Buy</Link></li>
-  //       <li><Link to='/sell'>Sell</Link></li>
-  //       <li><Link to='/profile'>Profile</Link></li>
-  //     </ul>
-  //   </nav>
-  // </header>
+const Header = (props) => (
   <div className="App container">
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
@@ -28,7 +21,7 @@ const Header = () => (
             <LinkContainer to="/buy">
               <NavItem>Buy Slots</NavItem>
             </LinkContainer>
-            <LinkContainer to="/sell">
+            <LinkContainer to="/sell" onClick={(e) => props.initiateCreateBiffel()}>
               <NavItem>Create Biffel</NavItem>
             </LinkContainer>
             <LinkContainer to="/profile">
@@ -40,4 +33,17 @@ const Header = () => (
     </div>
 )
 
-export default Header
+Header.propTypes = {
+  initiateCreateBiffel: PropTypes.func
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    initiateCreateBiffel: bindActionCreators(initiateCreateBiffel, dispatch)
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Header);

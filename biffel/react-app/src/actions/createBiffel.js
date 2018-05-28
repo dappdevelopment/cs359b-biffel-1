@@ -8,7 +8,7 @@ export default function createBiffel(values, web3) {
       dispatch({type: CREATE_BIFFEL_SUCCESS});
     })
     .catch(err => {
-      dispatch({type: CREATE_BIFFEL_FAILED, values, error: err})
+      dispatch({type: CREATE_BIFFEL_FAILED, error: err})
     })
   }
 }
