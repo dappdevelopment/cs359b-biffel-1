@@ -12,6 +12,7 @@ const App = (props) => {
   //props.web3.userAccount === undefined && props.web3.message === undefined
   if(props.web3 === null){
     props.setupConnection();
+    return null;
   }
   if(props.web3.loading){
     return (
