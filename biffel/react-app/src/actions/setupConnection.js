@@ -1,6 +1,5 @@
 import Web3 from 'web3';
 import {SETUP_CONNECTION_SUCCESS, SETUP_CONNECTION_FAILURE, SETUP_CONNECTION_LOADING} from './actionTypes';
-var $ = require ('jquery');
 
 export default function setupConnection() {
   return dispatch => {
@@ -13,7 +12,7 @@ export default function setupConnection() {
     var userAccount;
     var contractAddress;
     //var contractDataPromise = $.getJSON('/build/contracts/Biffel.json');
-    var contractDataPromise = require('../contracts/Biffel.json');
+    var contractDataPromise = require('../contracts/BiffelContract.json');
     var networkIdPromise = web3.eth.net.getId(); // resolves on the current network i
     var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
     // var ms = 10000;

@@ -1,7 +1,6 @@
 import React from 'react'
 import Header from './Header'
 import Home from './Home'
-import Login from './Login/Login'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';

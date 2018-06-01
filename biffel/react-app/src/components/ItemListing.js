@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 const ItemListing = (props) => {
   if(props.items === null){
     props.fetchCatalog(props.web3);
+    return null;
   }
   return (
     <div>
