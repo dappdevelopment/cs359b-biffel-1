@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Header from './Header'
 import Home from './Home'
 import {connect} from 'react-redux';
@@ -6,39 +6,46 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import setupConnection from '../actions/setupConnection';
+import fetchItems from '../actions/fetchItems';
 
-const App = (props) => {
-  //props.web3.userAccount === undefined && props.web3.message === undefined
-  if(props.web3 === null){
-    props.setupConnection();
+class App extends Component{
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount(){
+    this.props.setupConnection();
+  }
+
+  componentDidUpdate(prevProps){
+    console.log('prevProps.web3', prevProps.web3);
+    console.log('this.props', this.props.web3);
+    if(!prevProps.web3 && this.props.web3){
+      if(!this.props.web3.error){
+        console.log('fetchItems');
+        this.props.fetchItems(this.props.web3);
+      }
+    }
+  }
+
+  render(){
+    if(this.props.web3 && this.props.web3.userAccount){
+      return (
+        <div>
+          <Header/>
+          <Home/>
+        </div>
+      )
+    }
     return null;
   }
-  if(props.web3.loading){
-    return (
-      <div>
-        {'Loading'}
-      </div>
-    )
-  }
-  if(props.web3.userAccount){
-    return (
-      <div>
-        <Header/>
-        <Home/>
-      </div>
-    )
-  }
-  return (
-    <div>
-      {props.web3.error}
-    </div>
-  )
 }
 
-//<Header/>
 
 App.propTypes = {
-  user: PropTypes.object
+  web3: PropTypes.object,
+  setupConnection: PropTypes.func,
+  fetchItems: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -49,7 +56,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setupConnection: bindActionCreators(setupConnection, dispatch)
+    setupConnection: bindActionCreators(setupConnection, dispatch),
+    fetchItems: bindActionCreators(fetchItems, dispatch)
   };
 }
 

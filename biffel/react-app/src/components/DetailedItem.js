@@ -9,23 +9,21 @@ import PropTypes from 'prop-types';
 // the URL's pathname. If no player is found with the given
 // number, then a "player not found" message is displayed.
 const DetailedItem = (props) => {
+  if(props.items === null){
+    return null
+  }
 
   let id = parseInt(props.match.params.id);
 
   if (isNaN(id)) {
     return <div>Sorry, but no item</div>
   }
-
-  props.fetchItemDetails(id);
-
-  if (props.item === null) {
-    return <div>Sorry, but no item was found.</div>
-  }
-
+  
+  var item = props.items[id]
   return (
     <div>
-      <h1>{props.item.name} (#{props.item.id})</h1>
-      <h2>Slot Price: {props.item.slotPrice}</h2>
+      <h1>{item.seller} (#{item.id})</h1>
+      <h2>Slot Price: {item.slotPrice}</h2>
     </div>
   )
 }
@@ -36,17 +34,17 @@ DetailedItem.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    item: state.item
+    items: state.items
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchItemDetails: bindActionCreators(fetchItemDetails, dispatch)
-  };
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     fetchItemDetails: bindActionCreators(fetchItemDetails, dispatch)
+//   };
+// }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(DetailedItem);

@@ -6,7 +6,7 @@ export default function setupConnection() {
     //eventually this will be a database call.
     //ws://localhost:3000
     //https://biffel.herokuapp.com/
-    dispatch({type: SETUP_CONNECTION_LOADING});
+    // dispatch({type: SETUP_CONNECTION_LOADING});
     var web3 = new Web3(Web3.givenProvider || "ws://localhost:3000");
     var contract;
     var userAccount;

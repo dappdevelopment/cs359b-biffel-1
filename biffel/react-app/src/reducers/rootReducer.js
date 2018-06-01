@@ -1,12 +1,10 @@
 import {combineReducers} from 'redux';
-import itemReducer from './itemReducer';
-import catalogReducer from './catalogReducer';
+import itemsReducer from './itemsReducer';
 import web3Reducer from './web3Reducer';
 import createBiffelReducer from './createBiffelReducer';
 
 const rootReducer = combineReducers({
-  item: itemReducer,
-  items: catalogReducer,
+  items: itemsReducer,
   web3: web3Reducer,
   createBiffel: createBiffelReducer
 

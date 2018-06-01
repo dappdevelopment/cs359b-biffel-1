@@ -2,25 +2,25 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import fetchCatalog from '../actions/fetchCatalog';
 import PropTypes from 'prop-types';
 
 // The FullRoster iterates over all of the players and creates
 // a link to their profile page.
 const ItemListing = (props) => {
   if(props.items === null){
-    props.fetchCatalog(props.web3);
     return null;
   }
   return (
     <div>
       <ul>
-        {
+        {props.items ?
           props.items.map(i => (
             <li key={i.id}>
-              <Link to={`/buy/${i.id}`}>{i.name}</Link>
+              <Link to={`/buy/${i.id}`}>{i.seller}</Link>
             </li>
           ))
+          :
+          null
         }
       </ul>
     </div>
@@ -39,13 +39,13 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchCatalog: bindActionCreators(fetchCatalog, dispatch)
-  };
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     fetchCatalog: bindActionCreators(fetchCatalog, dispatch)
+//   };
+// }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(ItemListing);
