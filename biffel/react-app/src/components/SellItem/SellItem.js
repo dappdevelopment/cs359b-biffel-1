@@ -17,12 +17,13 @@ class SellItem extends Component {
     this.state = {
       title: props.title || "",
       slotPrice: props.slotPrice || 0,
-      numberOfSlots: props.numberOfSlots || 0
+      numberOfSlots: props.numberOfSlots || 0,
+      bounty: props.bounty || 0
     };
   }
 
   validateForm() {
-    return this.state.title.length > 0 && this.state.slotPrice > 0 && this.state.numberOfSlots > 0;
+    return this.state.title.length > 0 && this.state.slotPrice > 0 && this.state.numberOfSlots > 0 && this.state.bounty > 0;
   }
 
   handleChange = event => {
@@ -62,6 +63,14 @@ class SellItem extends Component {
             <ControlLabel>Number of Slots</ControlLabel>
             <FormControl
               value={this.state.numberOfSlots}
+              onChange={this.handleChange}
+              type="number"
+            />
+          </FormGroup>
+          <FormGroup controlId="bounty" bsSize="large">
+            <ControlLabel>Bounty</ControlLabel>
+            <FormControl
+              value={this.state.bounty}
               onChange={this.handleChange}
               type="number"
             />
