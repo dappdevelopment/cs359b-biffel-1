@@ -57,7 +57,7 @@ class DetailedItem extends Component {
               <Panel.Body>{item.slotCount - item.buyers.length}</Panel.Body>
             </Panel>
 
-            {this.props.web3.userAccount !== item.seller
+            {this.props.web3.userAccount !== item.seller ?
               <div>
                 <Panel>
                   <Panel.Title>
