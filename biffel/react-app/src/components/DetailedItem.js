@@ -37,13 +37,44 @@ class DetailedItem extends Component {
     var item = this.props.items[id]
     return (
       <div>
-        <div>
-          <h1>{item.seller} (#{item.id})</h1>
-          <h2>Slot Price: {item.slotPrice}</h2>
-        </div>
-        <Button onClick={this.handleClick}>
-          {'Buy slot'}
-        </Button>
+        <Panel>
+          <Panel.Heading>
+            <Panel.Title>
+              `${item.title} (#${item.id})`
+            </Panel.Title>
+          </Panel.Heading>
+          <Panel.Body>
+            <Panel>
+              <Panel.Title>
+                <Panel.Heading>`Slot Price`</Panel.Heading>
+              </Panel.Title>
+              <Panel.Body>{item.slotPrice}</Panel.Body>
+            </Panel>
+            <Panel>
+              <Panel.Title>
+                <Panel.Heading>`Slots Remaining`</Panel.Heading>
+              </Panel.Title>
+              <Panel.Body>{item.slotCount - item.buyers.length}</Panel.Body>
+            </Panel>
+
+            {this.props.web3.userAccount !== item.seller
+              <div>
+                <Panel>
+                  <Panel.Title>
+                    <Panel.Heading>`Slots Owned`</Panel.Heading>
+                  </Panel.Title>
+                  <Panel.Body>{getSlotsOwned(item.buyers, this.props.web3.userAccount)}</Panel.Body>
+                </Panel>
+                <Button onClick={this.handleClick}>
+                  {'Buy slot'}
+                </Button>
+              </div>
+              :
+              null
+            }
+          </Panel.Body>
+
+        </Panel>
       </div>
     )
   }
@@ -52,6 +83,16 @@ class DetailedItem extends Component {
 DetailedItem.propTypes = {
   items: PropTypes.object
 };
+
+function getSlotsOwned(buyers, myAccount){
+  var count = 0;
+  for(let buyer of buyers){
+    if(buyer === myAccount){
+      count += 1;
+    }
+  }
+  return count;
+}
 
 function mapStateToProps(state) {
   return {
