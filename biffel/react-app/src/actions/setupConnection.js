@@ -96,6 +96,13 @@ export default function setupConnection() {
         bindActionCreators(fetchItems, dispatch)({contract: web3.contract, userAccount: web3.userAccount})
       })
 
+      contractForEvents.events.biffelFull()
+      .on('data', function(event){
+        let data = event.returnValues;
+        console.log('data', data)
+        bindActionCreators(fetchItems, dispatch)({contract: web3.contract, userAccount: web3.userAccount})
+      })
+
     })
     .catch((err) => {
       var message;

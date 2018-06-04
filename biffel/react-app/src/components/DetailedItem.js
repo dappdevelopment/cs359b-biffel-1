@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import buySlot from '../actions/buySlot'
+import buySlot from '../actions/buySlot';
+import initiateBiffel from '../actions/initiateBiffel';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { Button, FormGroup, FormControl, ControlLabel, Alert, Panel, Radio } from "react-bootstrap";
@@ -13,14 +14,36 @@ import { Button, FormGroup, FormControl, ControlLabel, Alert, Panel, Radio } fro
 class DetailedItem extends Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleBuySlot = this.handleBuySlot.bind(this);
+    this.handleInitiateBiffel = this.handleInitiateBiffel.bind(this);
+    this.displayButton = this.displayButton.bind(this);
   }
 
-  handleClick(){
+  handleBuySlot(){
     var item = this.props.items[this.props.match.params.id]
     var value = item.slotPrice + item.bounty
     console.log('value', value);
     this.props.buySlot(this.props.web3, this.props.match.params.id, value);
+  }
+
+  handleInitiateBiffel(){
+    this.props.initiateBiffel();
+  }
+
+  displayButton(){
+    var item = this.props.items[this.props.match.params.id]
+    if(item['winner']){
+      return (
+        <Button onClick={this.handleInitiateBiffel}>
+          {'Initiate Biffel'}
+        </Button>
+      )
+    }
+    return (
+      <Button onClick={this.handleBuySlot}>
+        {'Buy slot'}
+      </Button>
+    )
   }
 
   render(){
@@ -35,40 +58,61 @@ class DetailedItem extends Component {
     }
 
     var item = this.props.items[id]
+    if(item['winner']){
+      return (
+        <Panel>
+          <Panel.Heading>
+            <Panel.Title>{`${item.title} (#${item.id})`}</Panel.Title>
+          </Panel.Heading>
+          <Panel.Body>
+            <Panel>
+              <Panel.Heading>
+                <Panel.Title componentClass="h2">{'Winner'}</Panel.Title>
+              </Panel.Heading>
+              <Panel.Body>{item.winner}</Panel.Body>
+            </Panel>
+            <Panel>
+              <Panel.Heading>
+                <Panel.Title componentClass="h2">{'Result'}</Panel.Title>
+              </Panel.Heading>
+              <Panel.Body>{item.winner === this.props.web3.userAccount ? 'You won!' : 'You lost'}</Panel.Body>
+            </Panel>
+          </Panel.Body>
+        </Panel>
+      )
+    }
     return (
       <div>
         <Panel>
           <Panel.Heading>
-            <Panel.Title>
-              `${item.title} (#${item.id})`
-            </Panel.Title>
+            <Panel.Title>{`${item.title} (#${item.id})`}</Panel.Title>
           </Panel.Heading>
           <Panel.Body>
             <Panel>
-              <Panel.Title>
-                <Panel.Heading>`Slot Price`</Panel.Heading>
-              </Panel.Title>
+              <Panel.Heading>
+                <Panel.Title componentClass="h2">{'Slot Price'}</Panel.Title>
+              </Panel.Heading>
               <Panel.Body>{item.slotPrice}</Panel.Body>
             </Panel>
             <Panel>
-              <Panel.Title>
-                <Panel.Heading>`Slots Remaining`</Panel.Heading>
-              </Panel.Title>
+              <Panel.Heading>
+                <Panel.Title componentClass="h2">{'Slots Remaining'}</Panel.Title>
+              </Panel.Heading>
               <Panel.Body>{item.slotCount - item.buyers.length}</Panel.Body>
             </Panel>
 
-            {this.props.web3.userAccount !== item.seller
-              <div>
-                <Panel>
-                  <Panel.Title>
-                    <Panel.Heading>`Slots Owned`</Panel.Heading>
-                  </Panel.Title>
-                  <Panel.Body>{getSlotsOwned(item.buyers, this.props.web3.userAccount)}</Panel.Body>
-                </Panel>
-                <Button onClick={this.handleClick}>
-                  {'Buy slot'}
-                </Button>
-              </div>
+            {this.props.web3.userAccount !== item.seller ?
+              (
+                <div>
+                  <Panel>
+                    <Panel.Heading>
+                      <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body>{getSlotsOwned(item.buyers, this.props.web3.userAccount)}</Panel.Body>
+                  </Panel>
+                  {this.displayButton()}
+                </div>
+              )
               :
               null
             }
@@ -81,7 +125,7 @@ class DetailedItem extends Component {
 }
 
 DetailedItem.propTypes = {
-  items: PropTypes.object
+  items: PropTypes.array
 };
 
 function getSlotsOwned(buyers, myAccount){

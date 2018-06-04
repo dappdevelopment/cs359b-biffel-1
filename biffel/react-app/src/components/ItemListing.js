@@ -16,7 +16,7 @@ const ItemListing = (props) => {
         {props.items ?
           props.items.map(i => (
             <li key={i.id}>
-              <Link to={`/buy/${i.id}`}>{i.seller}</Link>
+              <Link to={`/buy/${i.id}`}>{i.title}</Link>
             </li>
           ))
           :
