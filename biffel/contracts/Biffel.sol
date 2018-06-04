@@ -5,6 +5,7 @@ contract BiffelContract {
     address contractCreator;
     
     struct Biffel {
+        string biffelTitle;
         uint biffelID;
         address seller;
         address[] buyers;
@@ -26,6 +27,7 @@ contract BiffelContract {
     }
 
     event biffelCreated(
+        string biffelTitle,
         uint biffelID,
         address seller,
         uint32 slotCount,
@@ -38,6 +40,7 @@ contract BiffelContract {
         address seller,
         address[] buyers,
         uint256 slotPrice,
+        uint32 slotCount,
         uint256 bounty
     );
     
@@ -63,16 +66,16 @@ contract BiffelContract {
         biffelCount = 0;
     }
 
-    function createBiffel(uint32 _slotCount, uint256 _slotPrice, uint256 _bounty) public returns (uint) {
+    function createBiffel(string title, uint32 _slotCount, uint256 _slotPrice, uint256 _bounty) public returns (uint) {
         uint _biffelID = biffelCount;
 
         biffelCount += 1;
         
-        Biffel memory biffel = Biffel(_biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,_bounty,0,0,false, true);
+        Biffel memory biffel = Biffel(title, _biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,_bounty,0,0,false, true);
         
         biffels[_biffelID] = biffel;
 
-        emit biffelCreated(_biffelID,msg.sender,_slotCount,_slotPrice,_bounty);
+        emit biffelCreated(title, _biffelID,msg.sender,_slotCount,_slotPrice,_bounty);
 
         return _biffelID;
     }
@@ -89,7 +92,7 @@ contract BiffelContract {
 
         biffels[_biffelID].balance += msg.value;
         
-        emit slotBought(_biffelID,biffels[_biffelID].seller,biffels[_biffelID].buyers,biffels[_biffelID].slotPrice,biffels[_biffelID].bounty);
+        emit slotBought(_biffelID,biffels[_biffelID].seller,biffels[_biffelID].buyers,biffels[_biffelID].slotPrice,biffels[_biffelID].slotCount,biffels[_biffelID].bounty);
 
         if (buyerCount == biffels[_biffelID].slotCount) {
             biffels[_biffelID].startBlock = block.number;
@@ -158,6 +161,10 @@ contract BiffelContract {
     
     //public getters for Biffel struct variables
     //requires biffelIDs
+    
+    function getBiffelString(uint256 _biffelID) public view returns (string title){
+        return biffels[_biffelID].biffelTitle;
+    }
     
     function getBiffelSeller(uint256 _biffelID) public view returns (address seller){
         return biffels[_biffelID].seller;
