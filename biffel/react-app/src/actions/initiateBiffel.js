@@ -1,14 +1,14 @@
-import {BUY_SLOT_SUCCESS, BUY_SLOT_FAILED} from './actionTypes';
+import {START_BIFFEL_SUCCESS, START_BIFFEL_FAILED} from './actionTypes';
 
-export default function initiateBiffel(web3, biffelID, value) {
+export default function initiateBiffel(web3, biffelID) {
   return dispatch => {
-    web3.contract.methods.buySlot(biffelID).send({from: web3.userAccount, value})
+    web3.contract.methods.startBiffel(biffelID).send({from: web3.userAccount})
     .then((res) => {
       console.log('res', res);
-      dispatch({type: BUY_SLOT_SUCCESS});
+      dispatch({type: START_BIFFEL_SUCCESS});
     })
     .catch(err => {
-      dispatch({type: BUY_SLOT_FAILED, error: err})
+      dispatch({type: START_BIFFEL_FAILED, error: err})
     })
   }
 }

@@ -23,7 +23,7 @@ class DetailedItem extends Component {
   }
 
   handleInitiateBiffel(){
-    this.props.initiateBiffel();
+    this.props.initiateBiffel(this.props.web3, this.props.match.params.id);
   }
 
   displayButton(){
