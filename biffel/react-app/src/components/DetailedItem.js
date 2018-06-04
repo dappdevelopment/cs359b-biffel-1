@@ -7,10 +7,6 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { Button, FormGroup, FormControl, ControlLabel, Alert, Panel, Radio } from "react-bootstrap";
 
-// The Player looks up the player using the number parsed from
-// the URL's pathname. If no player is found with the given
-// number, then a "player not found" message is displayed.
-
 class DetailedItem extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +28,7 @@ class DetailedItem extends Component {
 
   displayButton(){
     var item = this.props.items[this.props.match.params.id]
-    if(item['winner']){
+    if(!item.isActive){
       return (
         <Button onClick={this.handleInitiateBiffel}>
           {'Initiate Biffel'}
@@ -58,7 +54,7 @@ class DetailedItem extends Component {
     }
 
     var item = this.props.items[id]
-    if(item['winner']){
+    if(item.winner){
       return (
         <Panel>
           <Panel.Heading>
