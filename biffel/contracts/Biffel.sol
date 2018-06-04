@@ -71,7 +71,7 @@ contract BiffelContract {
 
         biffelCount += 1;
         
-        Biffel memory biffel = Biffel(title, _biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,_bounty,0,0,false, true);
+        Biffel memory biffel = Biffel(title, _biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,_bounty,0,address(0),false, true);
         
         biffels[_biffelID] = biffel;
 
@@ -123,6 +123,8 @@ contract BiffelContract {
         biffels[_biffelID].bountyPaid = true;
         
         emit biffelDecided(_biffelID,winner);
+        
+        biffels[_biffelID].winner = winner;
         
         return winner;
 
@@ -204,6 +206,10 @@ contract BiffelContract {
     
     function getBiffelIsActive(uint256 _biffelID) public view returns (bool isActive){
         return biffels[_biffelID].isActive;
+    }
+    
+    function getBiffelWinner(uint256 _biffelID) public view returns (address winner){
+        return biffels[_biffelID].winner;
     }
     
     // ratings
