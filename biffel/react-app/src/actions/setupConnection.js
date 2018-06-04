@@ -1,5 +1,7 @@
 import Web3 from 'web3';
-import {SETUP_CONNECTION_SUCCESS, SETUP_CONNECTION_FAILURE, SETUP_CONNECTION_LOADING} from './actionTypes';
+import {SETUP_CONNECTION_SUCCESS, SETUP_CONNECTION_FAILURE, SETUP_CONNECTION_LOADING, SLOT_BOUGHT, ITEM_CREATED} from './actionTypes';
+import {bindActionCreators} from 'redux';
+import fetchItems from './fetchItems';
 
 export default function setupConnection() {
   return dispatch => {
@@ -66,7 +68,34 @@ export default function setupConnection() {
       .on('data', function(event){
         let data = event.returnValues;
         console.log('data', data)
+        // var item = {}
+        // item['id'] = data.biffelID
+        // item['seller'] = data.seller
+        // item['buyers'] = data.buyers
+        // item['slotCount'] = data.slotCount
+        // item['slotPrice'] = data.slotPrice
+        // item['bounty'] = data.bounty
+        // item['isActive'] = true
+        // dispatch({type: SLOT_BOUGHT, item})
+        bindActionCreators(fetchItems, dispatch)({contract: web3.contract, userAccount: web3.userAccount})
       })
+
+      contractForEvents.events.biffelCreated()
+      .on('data', function(event){
+        let data = event.returnValues;
+        console.log('data', data)
+        // var item = {}
+        // item['id'] = data.biffelID
+        // item['seller'] = data.seller
+        // item['buyers'] = []
+        // item['slotCount'] = data.slotCount
+        // item['slotPrice'] = data.slotPrice
+        // item['bounty'] = data.bounty
+        // item['isActive'] = true
+        // dispatch({type: ITEM_CREATED, item})
+        bindActionCreators(fetchItems, dispatch)({contract: web3.contract, userAccount: web3.userAccount})
+      })
+
     })
     .catch((err) => {
       var message;
