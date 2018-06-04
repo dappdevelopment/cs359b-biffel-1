@@ -40,6 +40,33 @@ export default function setupConnection() {
       console.log('contractAddress', contractAddress);
       contract = new web3.eth.Contract(contractData.abi, contractAddress);
       dispatch({type: SETUP_CONNECTION_SUCCESS, web3: {contract, userAccount}})
+      return {contract, userAccount, networkId, abi: contractData.abi, address: contractAddress};
+    })
+    .then(web3 => {
+      var networkURI;
+      var abi = web3.abi;
+      var networkId = web3.networkId;
+      var address = web3.address;
+      console.log('networkId', networkId);
+      switch(networkId){
+        case 1:
+          networkURI = 'wss://mainnet.infura.io/ws';
+          break;
+        case 4:
+          networkURI = 'wss://rinkeby.infura.io/ws';
+          break;
+        default:
+          networkURI = 'wss://rinkeby.infura.io/ws';
+      }
+      const web3ForEvents = new Web3(new Web3.providers.WebsocketProvider(networkURI));
+      console.log('web3ForEvents', web3ForEvents);
+      const contractForEvents = new web3ForEvents.eth.Contract(abi, address);
+
+      contractForEvents.events.slotBought()
+      .on('data', function(event){
+        let data = event.returnValues;
+        console.log('data', data)
+      })
     })
     .catch((err) => {
       var message;
@@ -49,6 +76,7 @@ export default function setupConnection() {
         message = err.message;
       }
       dispatch({type: SETUP_CONNECTION_FAILURE, error: message})
-    });
+    })
+
   };
 }

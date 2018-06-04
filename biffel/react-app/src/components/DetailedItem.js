@@ -17,7 +17,10 @@ class DetailedItem extends Component {
   }
 
   handleClick(){
-    this.props.buySlot(this.props.web3, this.props.match.params.id);
+    var item = this.props.items[this.props.match.params.id]
+    var value = item.slotPrice + item.bounty
+    console.log('value', value);
+    this.props.buySlot(this.props.web3, this.props.match.params.id, value);
   }
 
   render(){
