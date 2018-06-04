@@ -40,7 +40,7 @@ export default function fetchItems(web3) {
         item['bountyPaid'] = result[i][7]
         item['isActive'] = result[i][8]
         item['title'] = result[i][9]
-        item['winner'] = (result[i][10] === 0 ? null : result[i][10])
+        item['winner'] = (result[i][10] === '0x0000000000000000000000000000000000000000' ? null : result[i][10])
         items.push(item)
       }
       dispatch({type: ITEMS_RECEIVED, items})
