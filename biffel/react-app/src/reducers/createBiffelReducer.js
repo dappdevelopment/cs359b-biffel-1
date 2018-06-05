@@ -4,11 +4,11 @@ import {INITIATE_CREATE_BIFFEL, CREATE_BIFFEL_SUCCESS, CREATE_BIFFEL_FAILED} fro
 export default function createBiffelReducer(state = initialState.createBiffel, action) {
   switch (action.type) {
     case INITIATE_CREATE_BIFFEL:
-      return initialState.createBiffel;
+      return {...initialState.createBiffel, loading: true};
     case CREATE_BIFFEL_SUCCESS:
-      return {error: '', success: true};
+      return {error: '', success: true, loading: false};
     case CREATE_BIFFEL_FAILED:
-      return {error: action.error, success: false};
+      return {error: action.error, success: false, loading: false};
     default:
       return state;
   }
