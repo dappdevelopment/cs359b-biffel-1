@@ -8,7 +8,7 @@ export default function createBiffelReducer(state = initialState.createBiffel, a
     case CREATE_BIFFEL_SUCCESS:
       return {error: '', success: true};
     case CREATE_BIFFEL_FAILED:
-      return {success: false, error: action.error};
+      return {error: action.error, success: false};
     default:
       return state;
   }

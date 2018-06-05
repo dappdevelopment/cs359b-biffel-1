@@ -30,7 +30,7 @@ class ItemListing extends Component{
                       </Panel.Heading>
                       <Panel.Body>
 
-                        {this.props.web3.userAccount !== i.seller ?
+                        {this.props.userAccount !== i.seller ?
                           (
                             <p>Seller: {i.seller}</p>
                           )
@@ -57,14 +57,14 @@ class ItemListing extends Component{
                           </tbody>
                         </Table>
 
-                        {this.props.web3.userAccount !== i.seller ?
+                        {this.props.userAccount !== i.seller ?
                           (
                             <div>
                               <Panel bsStyle="info">
                                 <Panel.Heading>
                                   <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
                                 </Panel.Heading>
-                                <Panel.Body>{getSlotsOwned(i.buyers, this.props.web3.userAccount)}</Panel.Body>
+                                <Panel.Body>{getSlotsOwned(i.buyers, this.props.userAccount)}</Panel.Body>
                               </Panel>
                             </div>
                           )
@@ -132,13 +132,13 @@ function getSlotsOwned(buyers, myAccount){
 
 ItemListing.propTypes = {
   items: PropTypes.array,
-  web3: PropTypes.object
+  userAccount: PropTypes.string
 };
 
 function mapStateToProps(state) {
   return {
     items: state.items,
-    web3: state.web3
+    userAccount: state.web3.userAccount
   };
 }
 

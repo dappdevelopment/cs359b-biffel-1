@@ -1,8 +1,8 @@
 import {START_BIFFEL_SUCCESS, START_BIFFEL_FAILED} from './actionTypes';
 
-export default function initiateBiffel(web3, biffelID) {
+export default function initiateBiffel(contract, userAccount, biffelID) {
   return dispatch => {
-    web3.contract.methods.startBiffel(biffelID).send({from: web3.userAccount})
+    contract.methods.startBiffel(biffelID).send({from: userAccount})
     .then((res) => {
       console.log('res', res);
       dispatch({type: START_BIFFEL_SUCCESS});

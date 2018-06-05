@@ -18,12 +18,11 @@ class App extends Component{
   }
 
   componentDidUpdate(prevProps){
-    console.log('prevProps.web3', prevProps.web3);
-    console.log('this.props', this.props.web3);
-    if(!prevProps.web3 && this.props.web3){
+    console.log('this.props.web3', this.props.web3);
+    if(prevProps.web3 && prevProps.web3.loading && this.props.web3.loading === false){
       if(!this.props.web3.error){
         console.log('fetchItems');
-        this.props.fetchItems(this.props.web3);
+        this.props.fetchItems(this.props.web3.contract, this.props.web3.userAccount);
       }
     }
   }

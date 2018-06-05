@@ -5,10 +5,6 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {Panel, Tabs, Tab} from 'react-bootstrap';
 
-// The Player looks up the player using the number parsed from
-// the URL's pathname. If no player is found with the given
-// number, then a "player not found" message is displayed.
-
 class Profile extends Component {
   constructor(props){
     super(props);
@@ -23,11 +19,6 @@ class Profile extends Component {
       var inactiveBiffelsUserSeller = getInactiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount);
       var inactiveBiffelsUserBuyer = getInactiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount);
 
-      // console.log('ActiveBiffelsUserSeller', getActiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount));
-      // console.log('ActiveBiffelsUserBuyer', getBiffelsUserBuyer(this.props.items, this.props.web3.userAccount));
-
-      // console.log('InactiveBiffelsUserSeller', getInactiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount));
-      // console.log('InactiveBiffelsUserBuyer', getInactiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount));
       return (
         <div>
           <Panel bsStyle="primary">
@@ -124,7 +115,6 @@ class Profile extends Component {
       )
     }
     return null
-
   }
 }
 
@@ -136,7 +126,7 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     items: state.items,
-    web3: state.web3
+    userAccount: state.web3.userAccount
   };
 }
 
@@ -190,6 +180,9 @@ function getInactiveBiffelsUserBuyer(items, userAccount) {
   return biffelsUserBuyer;
 }
 
+function mapStateToProps(state) {
+
+}
 // function mapDispatchToProps(dispatch) {
 //   return {
 //     fetchItemDetails: bindActionCreators(fetchItemDetails, dispatch)
