@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Panel} from 'react-bootstrap';
+import {Panel, Table} from 'react-bootstrap';
 
 // The FullRoster iterates over all of the players and creates
 // a link to their profile page.
@@ -29,18 +29,21 @@ class ItemListing extends Component{
                         </Panel.Title>
                       </Panel.Heading>
                       <Panel.Body>
-                        <Panel>
-                          <Panel.Heading>
-                            <Panel.Title componentClass="h2">{'Slot Price'}</Panel.Title>
-                          </Panel.Heading>
-                          <Panel.Body>{i.slotPrice}</Panel.Body>
-                        </Panel>
-                        <Panel>
-                          <Panel.Heading>
-                            <Panel.Title componentClass="h2">{'Slots Remaining'}</Panel.Title>
-                          </Panel.Heading>
-                          <Panel.Body>{i.slotCount - i.buyers.length}</Panel.Body>
-                        </Panel>
+                        <Table>
+                          <thead>
+                            <tr>
+                              <th>Slot Price</th>
+                              <th>Slots Remaining</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th>{i.slotPrice}</th>
+                              <th>{i.slotCount - i.buyers.length}</th>
+                            </tr>
+                          </tbody>
+                        </Table>
+                        
                         {this.props.web3.userAccount !== i.seller ?
                           (
                             <div>
@@ -52,9 +55,9 @@ class ItemListing extends Component{
                               </Panel>
                             </div>
                           )
-                          :
+                        :
                           (
-                            <h2> Your Biffel </h2>
+                            <h3> You Own This Biffel </h3>
                           )
                         }
                       </Panel.Body>
