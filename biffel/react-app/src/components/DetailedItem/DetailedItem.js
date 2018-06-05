@@ -69,18 +69,18 @@ class DetailedItem extends Component {
     var item = this.props.items[id]
     if(item.winner){
       return (
-        <Panel>
+        <Panel bsStyle="success">
           <Panel.Heading>
             <Panel.Title>{`${item.title} (#${item.id})`}</Panel.Title>
           </Panel.Heading>
           <Panel.Body>
-            <Panel>
+            <Panel bsStyle="success">
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Winner'}</Panel.Title>
               </Panel.Heading>
               <Panel.Body>{item.winner}</Panel.Body>
             </Panel>
-            <Panel>
+            <Panel bsStyle="success">
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Result'}</Panel.Title>
               </Panel.Heading>
@@ -92,18 +92,18 @@ class DetailedItem extends Component {
     }
     return (
       <div>
-        <Panel>
+        <Panel bsStyle="primary">
           <Panel.Heading>
             <Panel.Title>{`${item.title} (#${item.id})`}</Panel.Title>
           </Panel.Heading>
           <Panel.Body>
-            <Panel>
+            <Panel bsStyle="primary">
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Slot Price'}</Panel.Title>
               </Panel.Heading>
               <Panel.Body>{item.slotPrice} wei</Panel.Body>
             </Panel>
-            <Panel>
+            <Panel bsStyle="primary">
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Slots Remaining'}</Panel.Title>
               </Panel.Heading>
@@ -113,7 +113,7 @@ class DetailedItem extends Component {
             {this.props.userAccount !== item.seller ?
               (
                 <div>
-                  <Panel>
+                  <Panel bsStyle="primary">
                     <Panel.Heading>
                       <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
                     </Panel.Heading>

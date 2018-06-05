@@ -1,15 +1,16 @@
-.salmon {
-	/*background-color: #fa8072;*/
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
 }
 
-.navitem {
-
+.navbar-brand>img {
+  padding: 7px 14px;
 }
 
-.navitem:global(.active) {
-  background-color: #000000;
-}
-
-.navitem .active {
-  background-color: #000000;
+.logo {
+	max-width:36px; 
+	max-height:36px;
+	margin-right: 5px;
 }

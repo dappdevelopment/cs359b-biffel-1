@@ -11,6 +11,13 @@ import './Header.css'
 const Header = (props) => (
   <div className="App container">
       <Navbar fluid collapseOnSelect>
+        <Navbar.Header>
+          <Navbar.Brand className="navbar-brand">
+            <span><img className="logo" src="https://thumb.ibb.co/ctNaSo/34497858_1998022223846047_6463238276474994688_n.png"/></span>
+            Biffel
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
         <Navbar.Collapse className="salmon">
           <Nav pullRight >
             <LinkContainer to="/buy">
@@ -27,6 +34,11 @@ const Header = (props) => (
       </Navbar>
     </div>
 )
+
+// <div className="flexbox">
+//   <img className="logo" src="https://thumb.ibb.co/hnAbiT/biffel_Logo.png"/>
+//   <h3>Biffel</h3>
+// </div>
 
 Header.propTypes = {
   initiateCreateBiffel: PropTypes.func

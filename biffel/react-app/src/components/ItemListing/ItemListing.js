@@ -19,10 +19,10 @@ class ItemListing extends Component{
       <div>
           {this.props.items ?
             this.props.items.map(i => {
-              if(i.isActive && i.seller !== this.props.web3.userAccount){
+              if(i.isActive && i.seller !== this.props.userAccount){
                 return (
                   <Link to={`/buy/${i.id}`} style={{ textDecoration: 'none' }}>
-                    <Panel bsStyle="info">
+                    <Panel bsStyle="primary">
                       <Panel.Heading>
                         <Panel.Title componentClass="h3">
                           <h3>{i.title}</h3>
@@ -60,7 +60,7 @@ class ItemListing extends Component{
                         {this.props.userAccount !== i.seller ?
                           (
                             <div>
-                              <Panel bsStyle="info">
+                              <Panel bsStyle="primary">
                                 <Panel.Heading>
                                   <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
                                 </Panel.Heading>
