@@ -1,8 +1,8 @@
 import {CREATE_BIFFEL_SUCCESS, CREATE_BIFFEL_FAILED} from './actionTypes';
 
-export default function createBiffel(values, web3) {
+export default function createBiffel(contract, userAccount, values) {
   return dispatch => {
-    web3.contract.methods.createBiffel(values.title, values.numberOfSlots, values.slotPrice, values.bounty).send({from: web3.userAccount})
+    contract.methods.createBiffel(values.title, values.numberOfSlots, values.slotPrice, values.bounty).send({from: userAccount})
     .then((res) => {
       console.log('res', res);
       dispatch({type: CREATE_BIFFEL_SUCCESS});

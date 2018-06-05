@@ -38,7 +38,7 @@ class SellItem extends Component {
 
     event.preventDefault();
     var values = {...this.state};
-    this.props.createBiffel(values, this.props.web3);
+    this.props.createBiffel(this.props.contract, this.props.userAccount, values);
   }
 
   captureFile =(event) => {
@@ -90,7 +90,7 @@ class SellItem extends Component {
             />
           </FormGroup>
           <FormGroup controlId="slotPrice" bsSize="large">
-            <ControlLabel>Slot Price</ControlLabel>
+            <ControlLabel>Slot Price (wei)</ControlLabel>
             <FormControl
               value={this.state.slotPrice}
               onChange={this.handleChange}
@@ -146,16 +146,14 @@ class SellItem extends Component {
 }
 
 SellItem.propTypes = {
-  values: PropTypes.object,
-  web3: PropTypes.object,
   success: PropTypes.boolean,
   error: PropTypes.string
 };
 
 function mapStateToProps(state) {
   return {
-    web3: state.web3,
-    values: state.createBiffel.values,
+    contract: state.web3.contract,
+    userAccount: state.web3.userAccount,
     error: state.createBiffel.error,
     success: state.createBiffel.success
   };

@@ -1,0 +1,16 @@
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
+.navbar-brand>img {
+  padding: 7px 14px;
+}
+
+.logo {
+	max-width:36px; 
+	max-height:36px;
+	margin-right: 5px;
+}

@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Panel, Table} from 'react-bootstrap';
+import './ItemListing.css'
 
 // The FullRoster iterates over all of the players and creates
 // a link to their profile page.
@@ -18,10 +19,10 @@ class ItemListing extends Component{
       <div>
           {this.props.items ?
             this.props.items.map(i => {
-              if(i.isActive && i.seller !== this.props.web3.userAccount){
+              if(i.isActive && i.seller !== this.props.userAccount){
                 return (
-                  <Link to={`/buy/${i.id}`}>
-                    <Panel>
+                  <Link to={`/buy/${i.id}`} style={{ textDecoration: 'none' }}>
+                    <Panel bsStyle="primary">
                       <Panel.Heading>
                         <Panel.Title componentClass="h3">
                           <h3>{i.title}</h3>
@@ -29,7 +30,7 @@ class ItemListing extends Component{
                       </Panel.Heading>
                       <Panel.Body>
 
-                        {this.props.web3.userAccount !== i.seller ?
+                        {this.props.userAccount !== i.seller ?
                           (
                             <p>Seller: {i.seller}</p>
                           )
@@ -49,21 +50,21 @@ class ItemListing extends Component{
                           </thead>
                           <tbody>
                             <tr>
-                              <th>{i.slotPrice}</th>
+                              <th>{i.slotPrice} wei</th>
                               <th>{i.slotCount}</th>
                               <th>{i.slotCount - i.buyers.length}</th>
                             </tr>
                           </tbody>
                         </Table>
 
-                        {this.props.web3.userAccount !== i.seller ?
+                        {this.props.userAccount !== i.seller ?
                           (
                             <div>
-                              <Panel>
+                              <Panel bsStyle="primary">
                                 <Panel.Heading>
                                   <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
                                 </Panel.Heading>
-                                <Panel.Body>{getSlotsOwned(i.buyers, this.props.web3.userAccount)}</Panel.Body>
+                                <Panel.Body>{getSlotsOwned(i.buyers, this.props.userAccount)}</Panel.Body>
                               </Panel>
                             </div>
                           )
@@ -131,13 +132,13 @@ function getSlotsOwned(buyers, myAccount){
 
 ItemListing.propTypes = {
   items: PropTypes.array,
-  web3: PropTypes.object
+  userAccount: PropTypes.string
 };
 
 function mapStateToProps(state) {
   return {
     items: state.items,
-    web3: state.web3
+    userAccount: state.web3.userAccount
   };
 }
 

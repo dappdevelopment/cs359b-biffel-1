@@ -5,10 +5,6 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {Panel, Tabs, Tab} from 'react-bootstrap';
 
-// The Player looks up the player using the number parsed from
-// the URL's pathname. If no player is found with the given
-// number, then a "player not found" message is displayed.
-
 class Profile extends Component {
   constructor(props){
     super(props);
@@ -16,25 +12,20 @@ class Profile extends Component {
 
   render (){
 
-    if(this.props.items && this.props.web3){
-      var activeBiffelsUserSeller = getActiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount);
-      var activeBiffelsUserBuyer = getActiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount);
+    if(this.props.items && this.props.userAccount){
+      var activeBiffelsUserSeller = getActiveBiffelsUserSeller(this.props.items, this.props.userAccount);
+      var activeBiffelsUserBuyer = getActiveBiffelsUserBuyer(this.props.items, this.props.userAccount);
 
-      var inactiveBiffelsUserSeller = getInactiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount);
-      var inactiveBiffelsUserBuyer = getInactiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount);
+      var inactiveBiffelsUserSeller = getInactiveBiffelsUserSeller(this.props.items, this.props.userAccount);
+      var inactiveBiffelsUserBuyer = getInactiveBiffelsUserBuyer(this.props.items, this.props.userAccount);
 
-      // console.log('ActiveBiffelsUserSeller', getActiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount));
-      // console.log('ActiveBiffelsUserBuyer', getBiffelsUserBuyer(this.props.items, this.props.web3.userAccount));
-
-      // console.log('InactiveBiffelsUserSeller', getInactiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount));
-      // console.log('InactiveBiffelsUserBuyer', getInactiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount));
       return (
         <div>
-          <Panel>
+          <Panel bsStyle="primary">
             <Panel.Heading>
               <Panel.Title componentClass="h3">Your Ethereum Address</Panel.Title>
             </Panel.Heading>
-            <Panel.Body>{this.props.web3.userAccount}</Panel.Body>
+            <Panel.Body>{this.props.userAccount}</Panel.Body>
           </Panel>
 
           <Tabs>
@@ -124,7 +115,6 @@ class Profile extends Component {
       )
     }
     return null
-
   }
 }
 
@@ -134,9 +124,8 @@ Profile.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
     items: state.items,
-    web3: state.web3
+    userAccount: state.web3.userAccount
   };
 }
 
