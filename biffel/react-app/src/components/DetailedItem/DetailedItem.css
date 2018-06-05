@@ -71,3 +71,8 @@
 .off {
 	display: none;
 }
+
+img {
+	width: 200px;
+	margin-bottom: 10px;
+}

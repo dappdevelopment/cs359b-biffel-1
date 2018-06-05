@@ -19,8 +19,9 @@ export default function fetchItems(contract, userAccount) {
           contract.methods.getBiffelStartBlock(id).call({from: userAccount}),
           contract.methods.getBiffelBountyPaid(id).call({from: userAccount}),
           contract.methods.getBiffelIsActive(id).call({from: userAccount}),
-          contract.methods.getBiffelString(id).call({from: userAccount}),
-          contract.methods.getBiffelWinner(id).call({from: userAccount})
+          contract.methods.getBiffelTitle(id).call({from: userAccount}),
+          contract.methods.getBiffelWinner(id).call({from: userAccount}),
+          contract.methods.getBiffelIPFSHash(id).call({from: userAccount})
         ])
         promises.push(promise)
       }
@@ -42,6 +43,7 @@ export default function fetchItems(contract, userAccount) {
         item['isActive'] = result[i][8]
         item['title'] = result[i][9]
         item['winner'] = (result[i][10] === '0x0000000000000000000000000000000000000000' ? null : result[i][10])
+        item['ipfsHash'] = result[i][11]
         items.push(item)
       }
       dispatch({type: ITEMS_RECEIVED, items})

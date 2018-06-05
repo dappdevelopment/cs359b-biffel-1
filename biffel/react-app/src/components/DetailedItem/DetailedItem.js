@@ -111,6 +111,12 @@ class DetailedItem extends Component {
             <Panel.Title>{`${item.title} (#${item.id})`}</Panel.Title>
           </Panel.Heading>
           <Panel.Body>
+            {item.ipfsHash !== "" ?
+              ( <img src={"https://ipfs.io/ipfs/" + item.ipfsHash}></img>
+              )
+            :
+              null
+            }
             <Panel bsStyle="primary">
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Slot Price'}</Panel.Title>
