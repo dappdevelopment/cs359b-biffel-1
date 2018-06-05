@@ -6,26 +6,21 @@ import initiateCreateBiffel from '../actions/initiateCreateBiffel';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+import './Header.css'
 
 const Header = (props) => (
   <div className="App container">
       <Navbar fluid collapseOnSelect>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <Link to="/">Biffel</Link>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav>
+        <Navbar.Collapse className="salmon">
+          <Nav pullRight >
             <LinkContainer to="/buy">
-              <NavItem>Buy Slots</NavItem>
+              <NavItem className="navitem">Buy Slots</NavItem>
             </LinkContainer>
             <LinkContainer to="/sell" onClick={(e) => props.initiateCreateBiffel()}>
-              <NavItem>Create Biffel</NavItem>
+              <NavItem className="navitem">Create Biffel</NavItem>
             </LinkContainer>
             <LinkContainer to="/profile">
-              <NavItem>Profile</NavItem>
+              <NavItem className="navitem">Profile</NavItem>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>
@@ -45,5 +40,7 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(
   null,
-  mapDispatchToProps
+  mapDispatchToProps,
+  null, 
+  { pure: false }
 )(Header);

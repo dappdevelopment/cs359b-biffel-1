@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Panel, Table} from 'react-bootstrap';
+import './ItemListing.css'
 
 // The FullRoster iterates over all of the players and creates
 // a link to their profile page.
@@ -16,13 +17,13 @@ class ItemListing extends Component{
   render(){
     return (
       <div>
-        <ul>
+        <ul className="ulist">
           {this.props.items ?
             this.props.items.map(i => {
               if(i.isActive){
                 return (
                   <li key={i.id}>
-                    <Panel>
+                    <Panel bsStyle="success">
                       <Panel.Heading>
                         <Panel.Title componentClass="h3">
                           <Link to={`/buy/${i.id}`}>{i.title}</Link>
@@ -60,7 +61,7 @@ class ItemListing extends Component{
                         {this.props.web3.userAccount !== i.seller ?
                           (
                             <div>
-                              <Panel>
+                              <Panel bsStyle="info">
                                 <Panel.Heading>
                                   <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
                                 </Panel.Heading>

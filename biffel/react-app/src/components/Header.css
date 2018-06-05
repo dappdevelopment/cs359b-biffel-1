@@ -1,0 +1,15 @@
+.salmon {
+	/*background-color: #fa8072;*/
+}
+
+.navitem {
+
+}
+
+.navitem:global(.active) {
+  background-color: #000000;
+}
+
+.navitem .active {
+  background-color: #000000;
+}
