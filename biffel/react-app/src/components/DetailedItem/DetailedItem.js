@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import buySlot from '../actions/buySlot';
-import initiateBiffel from '../actions/initiateBiffel';
+import buySlot from '../../actions/buySlot';
+import initiateBiffel from '../../actions/initiateBiffel';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import Web3 from 'web3';

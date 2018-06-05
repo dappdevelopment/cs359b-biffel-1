@@ -1,9 +1,9 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import ItemListing from './ItemListing'
-import DetailedItem from './DetailedItem'
+import ItemListing from './ItemListing/ItemListing'
+import DetailedItem from './DetailedItem/DetailedItem'
 import SellItem from './SellItem/SellItem'
-import Profile from './Profile'
+import Profile from './Profile/Profile'
 
 const Home = () => (
   <main>

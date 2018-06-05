@@ -29,7 +29,17 @@ class ItemListing extends Component{
                         </Panel.Title>
                       </Panel.Heading>
                       <Panel.Body>
-                        <p>Seller: {i.seller}</p>
+
+                        {this.props.web3.userAccount !== i.seller ?
+                          (
+                            <p>Seller: {i.seller}</p>
+                          )
+                        :
+                          (
+                            <p>Seller: You</p>
+                          )
+                        }
+
                         <Table>
                           <thead>
                             <tr>
@@ -59,9 +69,7 @@ class ItemListing extends Component{
                             </div>
                           )
                         :
-                          (
-                            <h3> You Own This Biffel </h3>
-                          )
+                          null
                         }
                       </Panel.Body>
                     </Panel>
