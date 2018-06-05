@@ -29,21 +29,24 @@ class ItemListing extends Component{
                         </Panel.Title>
                       </Panel.Heading>
                       <Panel.Body>
+                        <p>Seller: {i.seller}</p>
                         <Table>
                           <thead>
                             <tr>
                               <th>Slot Price</th>
+                              <th>Initial Slot Count</th>
                               <th>Slots Remaining</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
                               <th>{i.slotPrice}</th>
+                              <th>{i.slotCount}</th>
                               <th>{i.slotCount - i.buyers.length}</th>
                             </tr>
                           </tbody>
                         </Table>
-                        
+
                         {this.props.web3.userAccount !== i.seller ?
                           (
                             <div>
