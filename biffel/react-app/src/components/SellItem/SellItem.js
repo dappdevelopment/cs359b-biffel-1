@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { Button, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 import './SellItem.css'
+import ipfs from '../../ipfs.js'
 
 class SellItem extends Component {
   constructor(props) {
@@ -18,7 +19,8 @@ class SellItem extends Component {
       title: props.title || "",
       slotPrice: props.slotPrice || 0,
       numberOfSlots: props.numberOfSlots || 0,
-      bounty: props.bounty || 0
+      bounty: props.bounty || 0,
+      buffer: ''
     };
   }
 
@@ -33,9 +35,38 @@ class SellItem extends Component {
   }
 
   handleSubmit = event => {
+
     event.preventDefault();
     var values = {...this.state};
     this.props.createBiffel(values, this.props.web3);
+  }
+
+  captureFile =(event) => {
+    console.log('capturing file')  
+    event.stopPropagation()
+    event.preventDefault()
+    const file = event.target.files[0]
+    let reader = new window.FileReader()
+    reader.readAsArrayBuffer(file)
+    reader.onloadend = () => this.convertToBuffer(reader)
+          
+  }
+
+  convertToBuffer = async(reader) => {
+    console.log('converting file')
+      //file is converted to a buffer for upload to IPFS
+    console.log('buffer',reader.result)
+
+    const buffer = await Buffer.from(reader.result);
+      //set this buffer -using es6 syntax
+    this.setState({buffer});
+    console.log(this.state.buffer)
+
+    await ipfs.add(this.state.buffer, (err, ipfsHash) => {
+        console.log(err,ipfsHash);
+        //setState by setting ipfsHash to ipfsHash[0].hash 
+        //this.setState({ ipfsHash:ipfsHash[0].hash });
+    })
   }
 
   render() {
@@ -49,6 +80,13 @@ class SellItem extends Component {
               type="text"
               value={this.state.title}
               onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Item Image</ControlLabel>
+            <input 
+              type = "file"
+              onChange = {this.captureFile}
             />
           </FormGroup>
           <FormGroup controlId="slotPrice" bsSize="large">
