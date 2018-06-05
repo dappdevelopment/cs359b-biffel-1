@@ -35,7 +35,7 @@ class SellItem extends Component {
   handleSubmit = event => {
     event.preventDefault();
     var values = {...this.state};
-    this.props.createBiffel(values, this.props.web3);
+    this.props.createBiffel(this.props.contract, this.props.userAccount, values);
   }
 
   render() {
@@ -108,16 +108,14 @@ class SellItem extends Component {
 }
 
 SellItem.propTypes = {
-  values: PropTypes.object,
-  web3: PropTypes.object,
   success: PropTypes.boolean,
   error: PropTypes.string
 };
 
 function mapStateToProps(state) {
   return {
-    web3: state.web3,
-    values: state.createBiffel.values,
+    contract: state.web3.contract,
+    userAccount: state.web3.userAccount,
     error: state.createBiffel.error,
     success: state.createBiffel.success
   };

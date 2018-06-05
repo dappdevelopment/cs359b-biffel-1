@@ -5,7 +5,6 @@ import buySlot from '../../actions/buySlot';
 import initiateBiffel from '../../actions/initiateBiffel';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
-import Web3 from 'web3';
 import { Button, FormGroup, FormControl, ControlLabel, Alert, Panel, Radio } from "react-bootstrap";
 
 class DetailedItem extends Component {
@@ -13,34 +12,47 @@ class DetailedItem extends Component {
     super(props);
     this.handleBuySlot = this.handleBuySlot.bind(this);
     this.handleInitiateBiffel = this.handleInitiateBiffel.bind(this);
-    this.displayButton = this.displayButton.bind(this);
+    this.displayBuySlotButton = this.displayBuySlotButton.bind(this);
   }
 
   handleBuySlot(){
     var item = this.props.items[this.props.match.params.id]
     var value = item.slotPrice + item.bounty
     console.log('value', value);
-    this.props.buySlot(this.props.web3, this.props.match.params.id, value);
+    this.props.buySlot(this.props.contract, this.props.userAccount, this.props.match.params.id, value);
   }
 
   handleInitiateBiffel(){
-    this.props.initiateBiffel(this.props.web3, this.props.match.params.id);
+    this.props.initiateBiffel(this.props.contract, this.props.userAccount, this.props.match.params.id);
   }
 
-  displayButton(){
+  displayBuySlotButton(){
     var item = this.props.items[this.props.match.params.id]
-    if((item.slotCount - item.buyers.length) < 1 && this.props.web3.eth && this.props.web3.eth.blockNumber - item.startBlock > 10){
+    console.log('this.props.blockNumber', this.props.blockNumber);
+    if(item.startBlock === 0){
+      return (
+        <Button onClick={this.handleBuySlot}>
+          {'Buy slot'}
+        </Button>
+      )
+    }
+    return null
+  }
+
+  displayInitiateBiffelButton(){
+    var item = this.props.items[this.props.match.params.id]
+    if(item.startBlock === 0){
+      return null;
+    }
+    console.log('this.props.blockNumber', this.props.blockNumber);
+    if(this.props.blockNumber && this.props.blockNumber - item.startBlock > 10){
       return (
         <Button onClick={this.handleInitiateBiffel}>
           {'Initiate Biffel'}
         </Button>
       )
     }
-    return (
-      <Button onClick={this.handleBuySlot}>
-        {'Buy slot'}
-      </Button>
-    )
+    return null
   }
 
   render(){
@@ -72,7 +84,7 @@ class DetailedItem extends Component {
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Result'}</Panel.Title>
               </Panel.Heading>
-              <Panel.Body>{item.winner === this.props.web3.userAccount ? 'You won!' : 'You lost'}</Panel.Body>
+              <Panel.Body>{item.winner === this.props.userAccount ? 'You won!' : 'You lost'}</Panel.Body>
             </Panel>
           </Panel.Body>
         </Panel>
@@ -98,23 +110,23 @@ class DetailedItem extends Component {
               <Panel.Body>{item.slotCount - item.buyers.length}</Panel.Body>
             </Panel>
 
-            {this.props.web3.userAccount !== item.seller ?
+            {this.props.userAccount !== item.seller ?
               (
                 <div>
                   <Panel>
                     <Panel.Heading>
                       <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
                     </Panel.Heading>
-                    <Panel.Body>{getSlotsOwned(item.buyers, this.props.web3.userAccount)}</Panel.Body>
+                    <Panel.Body>{getSlotsOwned(item.buyers, this.props.userAccount)}</Panel.Body>
                   </Panel>
-                  {this.displayButton()}
+                  {this.displayBuySlotButton()}
                 </div>
               )
               :
               null
             }
+            {this.displayInitiateBiffelButton()}
           </Panel.Body>
-
         </Panel>
       </div>
     )
@@ -138,13 +150,17 @@ function getSlotsOwned(buyers, myAccount){
 function mapStateToProps(state) {
   return {
     items: state.items,
-    web3: state.web3
+    web3: state.web3.web3,
+    contract: state.web3.contract,
+    userAccount: state.web3.userAccount,
+    blockNumber: state.web3.blockNumber
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    buySlot: bindActionCreators(buySlot, dispatch)
+    buySlot: bindActionCreators(buySlot, dispatch),
+    initiateBiffel: bindActionCreators(initiateBiffel, dispatch)
   };
 }
 
