@@ -89,7 +89,7 @@ class DetailedItem extends Component {
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Slot Price'}</Panel.Title>
               </Panel.Heading>
-              <Panel.Body>{item.slotPrice}</Panel.Body>
+              <Panel.Body>{item.slotPrice} wei</Panel.Body>
             </Panel>
             <Panel>
               <Panel.Heading>

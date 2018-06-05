@@ -52,7 +52,7 @@ class SellItem extends Component {
             />
           </FormGroup>
           <FormGroup controlId="slotPrice" bsSize="large">
-            <ControlLabel>Slot Price</ControlLabel>
+            <ControlLabel>Slot Price (wei)</ControlLabel>
             <FormControl
               value={this.state.slotPrice}
               onChange={this.handleChange}

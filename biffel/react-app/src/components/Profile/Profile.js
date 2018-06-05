@@ -30,7 +30,7 @@ class Profile extends Component {
       // console.log('InactiveBiffelsUserBuyer', getInactiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount));
       return (
         <div>
-          <Panel>
+          <Panel bsStyle="primary">
             <Panel.Heading>
               <Panel.Title componentClass="h3">Your Ethereum Address</Panel.Title>
             </Panel.Heading>
