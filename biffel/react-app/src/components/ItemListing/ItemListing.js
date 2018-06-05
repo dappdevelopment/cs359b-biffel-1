@@ -18,7 +18,7 @@ class ItemListing extends Component{
       <div>
           {this.props.items ?
             this.props.items.map(i => {
-              if(i.isActive && i.seller !== this.props.web3.userAccount){
+              if(i.isActive && i.seller !== this.props.userAccount){
                 return (
                   <Link to={`/buy/${i.id}`}>
                     <Panel>
