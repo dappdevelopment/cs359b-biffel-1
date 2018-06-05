@@ -19,11 +19,11 @@ const Header = (props) => (
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse className="salmon">
-          <Nav pullRight >
+          <Nav pullRight>
             <LinkContainer to="/buy">
               <NavItem className="navitem">Buy Slots</NavItem>
             </LinkContainer>
-            <LinkContainer to="/sell" onClick={(e) => props.initiateCreateBiffel()}>
+            <LinkContainer to="/sell">
               <NavItem className="navitem">Create Biffel</NavItem>
             </LinkContainer>
             <LinkContainer to="/profile">
