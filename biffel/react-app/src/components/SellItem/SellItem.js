@@ -41,7 +41,18 @@ class SellItem extends Component {
   render() {
     return (
       <div className="SellItem">
-        <form onSubmit={this.handleSubmit}>
+        <div className={`sk-cube-grid ${this.props.loading ? '' : 'off'}`}>
+          <div className="sk-cube sk-cube1"></div>
+          <div className="sk-cube sk-cube2"></div>
+          <div className="sk-cube sk-cube3"></div>
+          <div className="sk-cube sk-cube4"></div>
+          <div className="sk-cube sk-cube5"></div>
+          <div className="sk-cube sk-cube6"></div>
+          <div className="sk-cube sk-cube7"></div>
+          <div className="sk-cube sk-cube8"></div>
+          <div className="sk-cube sk-cube9"></div>
+        </div>
+        <form className={`${this.props.loading ? 'off' : ''}`} onSubmit={this.handleSubmit}>
           <FormGroup controlId="title" bsSize="large">
             <ControlLabel>Title</ControlLabel>
             <FormControl
@@ -95,7 +106,7 @@ class SellItem extends Component {
           {this.props.success && !this.props.error ?
             (
               <Alert bsStyle='success'>
-                {'Biffel created successful'}
+                {'Biffel created successfully'}
               </Alert>
             )
             :
@@ -117,7 +128,8 @@ function mapStateToProps(state) {
     contract: state.web3.contract,
     userAccount: state.web3.userAccount,
     error: state.createBiffel.error,
-    success: state.createBiffel.success
+    success: state.createBiffel.success,
+    loading: state.createBiffel.loading
   };
 }
 
