@@ -15,6 +15,19 @@ class Profile extends Component {
   }
 
   render (){
+
+    var activeBiffelsUserSeller = getActiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount);
+    var activeBiffelsUserBuyer = getActiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount);
+
+    var inactiveBiffelsUserSeller = getInactiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount);
+    var inactiveBiffelsUserBuyer = getInactiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount);
+
+    // console.log('ActiveBiffelsUserSeller', getActiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount));
+    // console.log('ActiveBiffelsUserBuyer', getBiffelsUserBuyer(this.props.items, this.props.web3.userAccount));
+
+    // console.log('InactiveBiffelsUserSeller', getInactiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount));
+    // console.log('InactiveBiffelsUserBuyer', getInactiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount));
+
     return (
       <div>
         <Panel>
@@ -23,8 +36,53 @@ class Profile extends Component {
           </Panel.Heading>
           <Panel.Body>{this.props.web3.userAccount}</Panel.Body>
         </Panel>
+
+        <Panel>
+          <Panel.Heading>
+            <Panel.Title componentClass="h3">Your Active Biffels</Panel.Title>
+          </Panel.Heading>
+          <Panel.Body>
+            {activeBiffelsUserSeller ?
+              activeBiffelsUserSeller.map(i => {
+                return(
+                  <Panel>
+                    <Panel.Heading>
+                      <Link to={`/buy/${i.id}`}>{i.title}</Link>
+                    </Panel.Heading>
+                  </Panel>
+                )
+              })
+            :
+              null
+            }
+          </Panel.Body>
+        </Panel>
+
+        <Panel>
+          <Panel.Heading>
+            <Panel.Title componentClass="h3">Your Active Bids</Panel.Title>
+          </Panel.Heading>
+          <Panel.Body>
+            {activeBiffelsUserBuyer ?
+              activeBiffelsUserBuyer.map(i => {
+                return(
+                  <Panel>
+                    <Panel.Heading>
+                      <Link to={`/buy/${i.id}`}>{i.title}</Link>
+                    </Panel.Heading>
+                  </Panel>
+                )
+              })
+            :
+              null
+            }
+          </Panel.Body>
+        </Panel>
+
       </div>
     )
+
+
   }
 }
 
@@ -38,6 +96,55 @@ function mapStateToProps(state) {
     items: state.items,
     web3: state.web3
   };
+}
+
+function getActiveBiffelsUserSeller(items, userAccount) {
+  var biffelsUserSeller = [];
+  for(var item in items){
+    if(items[item].seller == userAccount){
+      biffelsUserSeller.push(items[item]);
+    }
+  }
+  return biffelsUserSeller;
+}
+
+function getInactiveBiffelsUserSeller(items, userAccount) {
+  var biffelsUserSeller = [];
+  for(var item in items){
+    if(!items[item].isActive && items[item].seller == userAccount){
+      biffelsUserSeller.push(items[item]);
+    }
+  }
+  return biffelsUserSeller;
+}
+
+function getActiveBiffelsUserBuyer(items, userAccount) {
+  var biffelsUserBuyer = [];
+  for(var item in items){
+    for(var buyer in items[item].buyers){
+      if(items[item].buyers[buyer] === userAccount){
+        biffelsUserBuyer.push(items[item]);
+        break;
+      }
+    }
+  }
+  return biffelsUserBuyer;
+}
+
+function getInactiveBiffelsUserBuyer(items, userAccount) {
+  var biffelsUserBuyer = [];
+  for(var item in items){
+    if(!items[item].isActive){
+      continue;
+    }
+    for(var buyer in items[item].buyers){
+      if(items[item].buyers[buyer] === userAccount){
+        biffelsUserBuyer.push(items[item]);
+        break;
+      }
+    }
+  }
+  return biffelsUserBuyer;
 }
 
 // function mapDispatchToProps(dispatch) {

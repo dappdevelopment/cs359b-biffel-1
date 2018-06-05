@@ -18,47 +18,52 @@ class ItemListing extends Component{
       <div>
         <ul>
           {this.props.items ?
-            this.props.items.map(i => (
-                <li key={i.id}>
-                  <Panel>
-                    <Panel.Heading>
-                      <Panel.Title componentClass="h3">
-                        <Link to={`/buy/${i.id}`}>{i.title}</Link>
-                      </Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Body>
-                      <Panel>
-                        <Panel.Heading>
-                          <Panel.Title componentClass="h2">{'Slot Price'}</Panel.Title>
-                        </Panel.Heading>
-                        <Panel.Body>{i.slotPrice}</Panel.Body>
-                      </Panel>
-                      <Panel>
-                        <Panel.Heading>
-                          <Panel.Title componentClass="h2">{'Slots Remaining'}</Panel.Title>
-                        </Panel.Heading>
-                        <Panel.Body>{i.slotCount - i.buyers.length}</Panel.Body>
-                      </Panel>
-                      {this.props.web3.userAccount !== i.seller ?
-                        (
-                          <div>
-                            <Panel>
-                              <Panel.Heading>
-                                <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
-                              </Panel.Heading>
-                              <Panel.Body>{getSlotsOwned(i.buyers, this.props.web3.userAccount)}</Panel.Body>
-                            </Panel>
-                          </div>
-                        )
-                        :
-                        (
-                          <h2> Your Biffel </h2>
-                        )
-                      }
-                    </Panel.Body>
-                  </Panel>
-                </li>
-            ))
+            this.props.items.map(i => {
+              if(i.isActive){
+                return (
+                  <li key={i.id}>
+                    <Panel>
+                      <Panel.Heading>
+                        <Panel.Title componentClass="h3">
+                          <Link to={`/buy/${i.id}`}>{i.title}</Link>
+                        </Panel.Title>
+                      </Panel.Heading>
+                      <Panel.Body>
+                        <Panel>
+                          <Panel.Heading>
+                            <Panel.Title componentClass="h2">{'Slot Price'}</Panel.Title>
+                          </Panel.Heading>
+                          <Panel.Body>{i.slotPrice}</Panel.Body>
+                        </Panel>
+                        <Panel>
+                          <Panel.Heading>
+                            <Panel.Title componentClass="h2">{'Slots Remaining'}</Panel.Title>
+                          </Panel.Heading>
+                          <Panel.Body>{i.slotCount - i.buyers.length}</Panel.Body>
+                        </Panel>
+                        {this.props.web3.userAccount !== i.seller ?
+                          (
+                            <div>
+                              <Panel>
+                                <Panel.Heading>
+                                  <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
+                                </Panel.Heading>
+                                <Panel.Body>{getSlotsOwned(i.buyers, this.props.web3.userAccount)}</Panel.Body>
+                              </Panel>
+                            </div>
+                          )
+                          :
+                          (
+                            <h2> Your Biffel </h2>
+                          )
+                        }
+                      </Panel.Body>
+                    </Panel>
+                  </li>
+                )
+              return null;
+            }
+            })
           :
             null
           }

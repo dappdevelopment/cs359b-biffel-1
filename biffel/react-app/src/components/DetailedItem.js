@@ -5,6 +5,7 @@ import buySlot from '../actions/buySlot';
 import initiateBiffel from '../actions/initiateBiffel';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
+import Web3 from 'web3';
 import { Button, FormGroup, FormControl, ControlLabel, Alert, Panel, Radio } from "react-bootstrap";
 
 class DetailedItem extends Component {
@@ -28,7 +29,7 @@ class DetailedItem extends Component {
 
   displayButton(){
     var item = this.props.items[this.props.match.params.id]
-    if(!item.isActive){
+    if((item.slotCount - item.buyers.length) < 1 && this.props.web3.eth && this.props.web3.eth.blockNumber - item.startBlock > 10){
       return (
         <Button onClick={this.handleInitiateBiffel}>
           {'Initiate Biffel'}
