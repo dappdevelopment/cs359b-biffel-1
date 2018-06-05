@@ -17,16 +17,15 @@ class ItemListing extends Component{
   render(){
     return (
       <div>
-        <ul className="ulist">
           {this.props.items ?
             this.props.items.map(i => {
-              if(i.isActive){
+              if(i.isActive && i.seller !== this.props.web3.userAccount){
                 return (
-                  <li key={i.id}>
-                    <Panel bsStyle="success">
+                  <Link to={`/buy/${i.id}`}>
+                    <Panel>
                       <Panel.Heading>
                         <Panel.Title componentClass="h3">
-                          <Link to={`/buy/${i.id}`}>{i.title}</Link>
+                          <h3>{i.title}</h3>
                         </Panel.Title>
                       </Panel.Heading>
                       <Panel.Body>
@@ -74,7 +73,7 @@ class ItemListing extends Component{
                         }
                       </Panel.Body>
                     </Panel>
-                  </li>
+                  </Link>
                 )
               return null;
             }
@@ -82,7 +81,6 @@ class ItemListing extends Component{
           :
             null
           }
-        </ul>
       </div>
   );
   }
