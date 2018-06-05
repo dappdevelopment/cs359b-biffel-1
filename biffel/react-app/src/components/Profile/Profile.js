@@ -12,12 +12,12 @@ class Profile extends Component {
 
   render (){
 
-    if(this.props.items && this.props.web3){
-      var activeBiffelsUserSeller = getActiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount);
-      var activeBiffelsUserBuyer = getActiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount);
+    if(this.props.items && this.props.userAccount){
+      var activeBiffelsUserSeller = getActiveBiffelsUserSeller(this.props.items, this.props.userAccount);
+      var activeBiffelsUserBuyer = getActiveBiffelsUserBuyer(this.props.items, this.props.userAccount);
 
-      var inactiveBiffelsUserSeller = getInactiveBiffelsUserSeller(this.props.items, this.props.web3.userAccount);
-      var inactiveBiffelsUserBuyer = getInactiveBiffelsUserBuyer(this.props.items, this.props.web3.userAccount);
+      var inactiveBiffelsUserSeller = getInactiveBiffelsUserSeller(this.props.items, this.props.userAccount);
+      var inactiveBiffelsUserBuyer = getInactiveBiffelsUserBuyer(this.props.items, this.props.userAccount);
 
       return (
         <div>
@@ -25,7 +25,7 @@ class Profile extends Component {
             <Panel.Heading>
               <Panel.Title componentClass="h3">Your Ethereum Address</Panel.Title>
             </Panel.Heading>
-            <Panel.Body>{this.props.web3.userAccount}</Panel.Body>
+            <Panel.Body>{this.props.userAccount}</Panel.Body>
           </Panel>
 
           <Tabs>
@@ -124,7 +124,6 @@ Profile.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
     items: state.items,
     userAccount: state.web3.userAccount
   };
@@ -180,9 +179,6 @@ function getInactiveBiffelsUserBuyer(items, userAccount) {
   return biffelsUserBuyer;
 }
 
-function mapStateToProps(state) {
-
-}
 // function mapDispatchToProps(dispatch) {
 //   return {
 //     fetchItemDetails: bindActionCreators(fetchItemDetails, dispatch)
