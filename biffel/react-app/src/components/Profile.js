@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
-import {Panel} from 'react-bootstrap';
+import {Panel, Tabs, Tab} from 'react-bootstrap';
 
 // The Player looks up the player using the number parsed from
 // the URL's pathname. If no player is found with the given
@@ -37,47 +37,88 @@ class Profile extends Component {
           <Panel.Body>{this.props.web3.userAccount}</Panel.Body>
         </Panel>
 
-        <Panel>
-          <Panel.Heading>
-            <Panel.Title componentClass="h3">Your Active Biffels</Panel.Title>
-          </Panel.Heading>
-          <Panel.Body>
-            {activeBiffelsUserSeller ?
-              activeBiffelsUserSeller.map(i => {
-                return(
-                  <Panel>
-                    <Panel.Heading>
-                      <Link to={`/buy/${i.id}`}>{i.title}</Link>
-                    </Panel.Heading>
-                  </Panel>
-                )
-              })
-            :
-              null
-            }
-          </Panel.Body>
-        </Panel>
+        <Tabs>
+          <Tab eventKey={1} title="Your Active Biffels" enabled>
+            <Panel>
+              <Panel.Body>
+                {activeBiffelsUserSeller ?
+                  activeBiffelsUserSeller.map(i => {
+                    return(
+                      <Panel>
+                        <Panel.Heading>
+                          <Link to={`/buy/${i.id}`}>{i.title}</Link>
+                        </Panel.Heading>
+                      </Panel>
+                    )
+                  })
+                :
+                  null
+                }
+              </Panel.Body>
+            </Panel>
+          </Tab>
 
-        <Panel>
-          <Panel.Heading>
-            <Panel.Title componentClass="h3">Your Active Bids</Panel.Title>
-          </Panel.Heading>
-          <Panel.Body>
-            {activeBiffelsUserBuyer ?
-              activeBiffelsUserBuyer.map(i => {
-                return(
-                  <Panel>
-                    <Panel.Heading>
-                      <Link to={`/buy/${i.id}`}>{i.title}</Link>
-                    </Panel.Heading>
-                  </Panel>
-                )
-              })
-            :
-              null
-            }
-          </Panel.Body>
-        </Panel>
+          <Tab eventKey={2} title="Your Active Bids" enabled>
+            <Panel>
+              <Panel.Body>
+                {activeBiffelsUserBuyer ?
+                  activeBiffelsUserBuyer.map(i => {
+                    return(
+                      <Panel>
+                        <Panel.Heading>
+                          <Link to={`/buy/${i.id}`}>{i.title}</Link>
+                        </Panel.Heading>
+                      </Panel>
+                    )
+                  })
+                :
+                  null
+                }
+              </Panel.Body>
+            </Panel>
+          </Tab>
+
+          <Tab eventKey={3} title="Your Past Biffels" enabled>
+            <Panel>
+              <Panel.Body>
+                {inactiveBiffelsUserSeller ?
+                  inactiveBiffelsUserSeller.map(i => {
+                    return(
+                      <Panel>
+                        <Panel.Heading>
+                          <Link to={`/buy/${i.id}`}>{i.title}</Link>
+                        </Panel.Heading>
+                      </Panel>
+                    )
+                  })
+                :
+                  null
+                }
+              </Panel.Body>
+            </Panel>
+          </Tab>
+
+          <Tab eventKey={4} title="Your Past Bids" enabled>
+            <Panel>
+              <Panel.Body>
+                {inactiveBiffelsUserBuyer ?
+                  inactiveBiffelsUserBuyer.map(i => {
+                    return(
+                      <Panel>
+                        <Panel.Heading>
+                          <Link to={`/buy/${i.id}`}>{i.title}</Link>
+                        </Panel.Heading>
+                      </Panel>
+                    )
+                  })
+                :
+                  null
+                }
+              </Panel.Body>
+            </Panel>
+          </Tab>
+
+        </Tabs>
 
       </div>
     )
@@ -134,7 +175,7 @@ function getActiveBiffelsUserBuyer(items, userAccount) {
 function getInactiveBiffelsUserBuyer(items, userAccount) {
   var biffelsUserBuyer = [];
   for(var item in items){
-    if(!items[item].isActive){
+    if(items[item].isActive){
       continue;
     }
     for(var buyer in items[item].buyers){
