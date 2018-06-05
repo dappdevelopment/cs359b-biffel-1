@@ -17,15 +17,15 @@ class SellItem extends Component {
 
     this.state = {
       title: props.title || "",
+      ipfsHash: props.ipfsHash || "",
       slotPrice: props.slotPrice || 0,
       numberOfSlots: props.numberOfSlots || 0,
-      bounty: props.bounty || 0,
-      buffer: ''
+      bounty: props.bounty || 0
     };
   }
 
   validateForm() {
-    return this.state.title.length > 0 && this.state.slotPrice > 0 && this.state.numberOfSlots > 0 && this.state.bounty > 0;
+    return this.state.title.length > 0 && this.state.slotPrice > 0 && this.state.numberOfSlots > 0 && this.state.bounty > 0 && this.state.ipfsHash != "";
   }
 
   handleChange = event => {
@@ -59,11 +59,12 @@ class SellItem extends Component {
 
     const buffer = await Buffer.from(reader.result);
       //set this buffer -using es6 syntax
-    this.setState({buffer});
-    console.log(this.state.buffer)
 
-    await ipfs.add(this.state.buffer, (err, ipfsHash) => {
-        console.log(err,ipfsHash);
+    await ipfs.add(buffer, (err, ipfsHash) => {
+        // console.log(err,ipfsHash);
+
+        this.setState({ipfsHash: ipfsHash[0].hash})
+        console.log('ipfsHash',this.state.ipfsHash[0].hash)
         //setState by setting ipfsHash to ipfsHash[0].hash 
         //this.setState({ ipfsHash:ipfsHash[0].hash });
     })

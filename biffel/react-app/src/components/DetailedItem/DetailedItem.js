@@ -6,6 +6,7 @@ import initiateBiffel from '../../actions/initiateBiffel';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { Button, FormGroup, FormControl, ControlLabel, Alert, Panel, Radio } from "react-bootstrap";
+import './DetailedItem.css'
 
 class DetailedItem extends Component {
   constructor(props) {
@@ -97,6 +98,12 @@ class DetailedItem extends Component {
             <Panel.Title>{`${item.title} (#${item.id})`}</Panel.Title>
           </Panel.Heading>
           <Panel.Body>
+            {item.ipfsHash !== "" ?
+              ( <img src={"https://ipfs.io/ipfs/" + item.ipfsHash}></img>
+              )
+            :
+              null
+            }
             <Panel bsStyle="primary">
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Slot Price'}</Panel.Title>
