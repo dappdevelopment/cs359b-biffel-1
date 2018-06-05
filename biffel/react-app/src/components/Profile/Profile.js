@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
-import {Panel, Tabs, Tab} from 'react-bootstrap';
+import {Panel, Tabs, Tab, Thumbnail} from 'react-bootstrap';
 
 class Profile extends Component {
   constructor(props){
@@ -37,7 +37,8 @@ class Profile extends Component {
                       return(
                         <Panel>
                           <Panel.Heading>
-                            <Link to={`/buy/${i.id}`}>{i.title}</Link>
+                            <Link to={`/buy/${i.id}`}>{i.title}
+                            </Link>
                           </Panel.Heading>
                         </Panel>
                       )
