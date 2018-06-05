@@ -140,6 +140,7 @@ function mapStateToProps(state) {
 }
 
 function getActiveBiffelsUserSeller(items, userAccount) {
+  // var biffelsUserSeller = items.filter(item=> item.seller == userAccount)
   var biffelsUserSeller = [];
   for(var item in items){
     if(items[item].seller == userAccount){
