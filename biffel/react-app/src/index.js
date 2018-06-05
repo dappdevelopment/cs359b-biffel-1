@@ -13,7 +13,7 @@ import { render } from 'react-dom';
 import configureStore from './store/configureStore';
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import App from './components/App';
+import App from './components/App/App';
 
 const store = configureStore();
 

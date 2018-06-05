@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import Header from './Header'
-import Home from './Home'
+import Header from '../Header'
+import Home from '../Home'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import setupConnection from '../actions/setupConnection';
-import fetchItems from '../actions/fetchItems';
+import setupConnection from '../../actions/setupConnection';
+import fetchItems from '../../actions/fetchItems';
+import './App.css';
 
 class App extends Component{
   constructor(props) {
@@ -36,7 +37,14 @@ class App extends Component{
         </div>
       )
     }
-    return null;
+    return (
+      <div class="MetamaskError">
+        <img id="MetmaskErrorLogo" src="https://thumb.ibb.co/ctNaSo/34497858_1998022223846047_6463238276474994688_n.png"></img>
+        <h3 id="MetamaskErrorTitle"> biffel </h3>
+        <p> Please Log In To Metamask </p>
+        <a href="https://metamask.io/"> Learn More </a>
+      </div>
+    )
   }
 }
 
