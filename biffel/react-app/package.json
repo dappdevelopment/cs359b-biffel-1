@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "ipfs-api": "^22.0.1",
     "jquery": "^3.3.1",
     "jsonfile": "^4.0.0",
     "react": "^16.3.2",
