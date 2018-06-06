@@ -46,7 +46,7 @@ class DetailedItem extends Component {
       return null;
     }
     console.log('this.props.blockNumber', this.props.blockNumber);
-    if(this.props.blockNumber && this.props.blockNumber - item.startBlock > 10){
+    if(this.props.blockNumber && this.props.blockNumber - item.startBlock > 1){
       return (
         <Button onClick={this.handleInitiateBiffel}>
           {'Initiate Biffel'}
@@ -192,9 +192,9 @@ function mapStateToProps(state) {
     contract: state.web3.contract,
     userAccount: state.web3.userAccount,
     blockNumber: state.web3.blockNumber,
-    loading: state.buySlot.loading,
-    error: state.buySlot.error,
-    success: state.buySlot.success,
+    loading: state.item.loading,
+    error: state.item.error,
+    success: state.item.success,
   };
 }
 

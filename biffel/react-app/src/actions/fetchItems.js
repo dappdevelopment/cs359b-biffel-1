@@ -34,12 +34,12 @@ export default function fetchItems(contract, userAccount) {
         item['id'] = i
         item['seller'] = result[i][0]
         item['buyers'] = result[i][1]
-        item['slotCount'] = result[i][2]
-        item['slotPrice'] = result[i][3]
-        item['balance'] = result[i][4]
-        item['bounty'] = result[i][5]
+        item['slotCount'] = parseInt(result[i][2])
+        item['slotPrice'] = parseInt(result[i][3])
+        item['balance'] = parseInt(result[i][4])
+        item['bounty'] = parseInt(result[i][5])
         item['startBlock'] = parseInt(result[i][6])
-        item['bountyPaid'] = result[i][7]
+        item['bountyPaid'] = parseInt(result[i][7])
         item['isActive'] = result[i][8]
         item['title'] = result[i][9]
         item['winner'] = (result[i][10] === '0x0000000000000000000000000000000000000000' ? null : result[i][10])
