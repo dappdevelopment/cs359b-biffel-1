@@ -121,7 +121,7 @@ class SellItem extends Component {
             />
           </FormGroup>
           <FormGroup controlId="bounty" bsSize="large">
-            <ControlLabel>Bounty</ControlLabel>
+            <ControlLabel>Bounty (wei)</ControlLabel>
             <FormControl
               value={this.state.bounty}
               onChange={this.handleChange}
