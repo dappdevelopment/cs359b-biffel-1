@@ -154,7 +154,7 @@ function getInactiveBiffelsUserSeller(items, userAccount) {
 function getActiveBiffelsUserBuyer(items, userAccount) {
   var biffelsUserBuyer = [];
   for(var item in items){
-    if(!item.isActive){
+    if(!items[item].isActive){
       continue;
     }
     for(var buyer in items[item].buyers){
@@ -164,6 +164,7 @@ function getActiveBiffelsUserBuyer(items, userAccount) {
       }
     }
   }
+  console.log('bub',biffelsUserBuyer);
   return biffelsUserBuyer;
 }
 
