@@ -1,6 +1,7 @@
 #MetmaskErrorLogo {
 	width: 50px;
 	margin-bottom: 5px;
+	border: 3px solid #ff9b9f;
 }
 
 #MetamaskErrorTitle {
@@ -17,3 +18,4 @@
  	transform: translate(-50%, -50%);
  	align-items: center;
 }
+

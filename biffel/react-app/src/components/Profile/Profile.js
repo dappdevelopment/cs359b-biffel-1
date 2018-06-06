@@ -131,7 +131,7 @@ function mapStateToProps(state) {
 }
 
 function getActiveBiffelsUserSeller(items, userAccount) {
-  var biffelsUserSeller = items.filter(item=> item.seller == userAccount)
+  var biffelsUserSeller = items.filter(item=> item.seller == userAccount && item.isActive)
   // var biffelsUserSeller = [];
   // for(var item in items){
   //   if(items[item].seller == userAccount){
@@ -154,6 +154,9 @@ function getInactiveBiffelsUserSeller(items, userAccount) {
 function getActiveBiffelsUserBuyer(items, userAccount) {
   var biffelsUserBuyer = [];
   for(var item in items){
+    if(!item.isActive){
+      continue;
+    }
     for(var buyer in items[item].buyers){
       if(items[item].buyers[buyer] === userAccount){
         biffelsUserBuyer.push(items[item]);

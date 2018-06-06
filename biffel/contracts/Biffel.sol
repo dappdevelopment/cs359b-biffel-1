@@ -17,7 +17,7 @@ contract BiffelContract {
         uint startBlock;
         address winner;
         
-        bool bountyPaid;
+        address bountyPaidTo;
         
         bool isActive;
     }
@@ -72,7 +72,7 @@ contract BiffelContract {
 
         biffelCount += 1;
         
-        Biffel memory biffel = Biffel(title, ipfshash, _biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,_bounty,0,address(0),false, true);
+        Biffel memory biffel = Biffel(title, ipfshash, _biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,_bounty,0,address(0),address(0), true);
         
         biffels[_biffelID] = biffel;
 
@@ -118,10 +118,10 @@ contract BiffelContract {
         winner = biffels[_biffelID].buyers[randInt];
         biffels[_biffelID].isActive = false;
         
-        require(biffels[_biffelID].bountyPaid == false);
+        require(biffels[_biffelID].bountyPaidTo == address(0));
         uint256 totalBounty = biffels[_biffelID].bounty * biffels[_biffelID].slotCount;
         msg.sender.transfer(totalBounty);
-        biffels[_biffelID].bountyPaid = true;
+        biffels[_biffelID].bountyPaidTo = msg.sender;
         
         emit biffelDecided(_biffelID,winner);
         
@@ -205,8 +205,8 @@ contract BiffelContract {
         return biffels[_biffelID].startBlock;
     }
     
-    function getBiffelBountyPaid(uint256 _biffelID) public view returns (bool bountyPaid){
-        return biffels[_biffelID].bountyPaid;
+    function getBiffelBountyPaidTo(uint256 _biffelID) public view returns (address bountyPaidTo){
+        return biffels[_biffelID].bountyPaidTo;
     }
     
     function getBiffelIsActive(uint256 _biffelID) public view returns (bool isActive){

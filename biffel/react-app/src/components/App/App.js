@@ -37,7 +37,7 @@ class App extends Component{
         </div>
       )
     }
-    return (
+    return(
       <div class="MetamaskError">
         <img id="MetmaskErrorLogo" src="https://thumb.ibb.co/ctNaSo/34497858_1998022223846047_6463238276474994688_n.png"></img>
         <h3 id="MetamaskErrorTitle"> biffel </h3>
