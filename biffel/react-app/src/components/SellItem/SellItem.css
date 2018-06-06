@@ -1,6 +1,7 @@
 @media all and (min-width: 480px) {
   .SellItem {
-    padding: 40px 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import initiateCreateBiffel from '../actions/initiateCreateBiffel';
+import initiateCreateBiffel from '../../actions/initiateCreateBiffel';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
@@ -14,7 +14,7 @@ const Header = (props) => (
         <Navbar.Header>
           <Navbar.Brand className="navbar-brand">
             <span><img className="logo" src="https://thumb.ibb.co/ctNaSo/34497858_1998022223846047_6463238276474994688_n.png"/></span>
-            Biffel
+            <h3 id="biffelTitle">biffel</h3>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
