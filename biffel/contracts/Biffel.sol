@@ -121,6 +121,7 @@ contract BiffelContract {
         require(biffels[_biffelID].bountyPaidTo == address(0));
         uint256 totalBounty = biffels[_biffelID].bounty * biffels[_biffelID].slotCount;
         msg.sender.transfer(totalBounty);
+        biffels[_biffelID].balance -= totalBounty;
         biffels[_biffelID].bountyPaidTo = msg.sender;
         
         emit biffelDecided(_biffelID,winner);
@@ -136,6 +137,7 @@ contract BiffelContract {
         require(biffels[_biffelID].isActive == false);
         require(msg.sender == biffels[_biffelID].winner);
         biffels[_biffelID].seller.transfer(biffels[_biffelID].balance);
+        biffels[_biffelID].balance = 0;
         return true;
     }
     
@@ -149,7 +151,10 @@ contract BiffelContract {
                biffels[_biffelID].buyers[i] = biffels[_biffelID].buyers[buyerLength - 1];
                
                delete biffels[_biffelID].buyers[buyerLength - 1];
+               
+               
                msg.sender.transfer(biffels[_biffelID].slotPrice + biffels[_biffelID].bounty);
+               biffels[_biffelID].balance -= (biffels[_biffelID].slotPrice + biffels[_biffelID].bounty);
                return true;
            }
         }
@@ -215,6 +220,10 @@ contract BiffelContract {
     
     function getBiffelWinner(uint256 _biffelID) public view returns (address winner){
         return biffels[_biffelID].winner;
+    }
+    
+    function getBiffelTotalBounty(uint256 _biffelID) public view returns (uint256 totalBounty){
+        return biffels[_biffelID].slotCount * biffels[_biffelID].bounty;
     }
     
     // ratings

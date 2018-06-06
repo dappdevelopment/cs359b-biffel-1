@@ -46,7 +46,7 @@ class DetailedItem extends Component {
       return null;
     }
     console.log('this.props.blockNumber', this.props.blockNumber);
-    if(this.props.blockNumber && this.props.blockNumber - item.startBlock > 10){
+    if(this.props.blockNumber && this.props.blockNumber - item.startBlock > 1){
       return (
         <Button onClick={this.handleInitiateBiffel}>
           {'Initiate Biffel'}

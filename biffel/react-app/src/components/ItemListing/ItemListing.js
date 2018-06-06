@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Panel, Table, Thumbnail, Image} from 'react-bootstrap';
+import {Panel, Table, Thumbnail, Image, FormControl, FormGroup} from 'react-bootstrap';
 import './ItemListing.css'
 
 // The FullRoster iterates over all of the players and creates
@@ -12,45 +12,70 @@ import './ItemListing.css'
 class ItemListing extends Component{
   constructor(props){
     super(props);
+  
+    this.state = {
+        value: '',
+        currentItems: this.props.items
+    };
+  }
+
+  handleChange(e) {
+    return true;
   }
 
   render(){
     return (
-      <div className="flexBox">
-          {this.props.items ?
-            this.props.items.map(i => {
-              if(i.isActive && i.seller !== this.props.userAccount){
-                return (
-                  <div className="flexItem">
-                    <Link to={`/buy/${i.id}`} style={{ textDecoration: 'none' }}>
-                      <div className="imgContainer" >
-                        <Image className="itemImg" src={"https://ipfs.io/ipfs/" + i.ipfsHash} responsive/>
-                      </div>
-                      <h3 className="title">{i.title}</h3>
-                      <Table>
-                        <thead>
-                          <tr>
-                            <th>Slot Price</th>
-                            <th>Slots Remaining</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th>{i.slotPrice} wei</th>
-                            <th>{i.slotCount - i.buyers.length}</th>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </Link>
-                  </div>
-                )
-              return null;
+      <div>
+        <form>
+          <FormGroup
+            controlId="searchParameters"
+          >
+            <FormControl
+              type="text"
+              placeholder="Enter Item Title"
+              onChange={this.handleChange}
+            />
+            <FormControl.Feedback />
+          </FormGroup>
+        </form>
+
+        <div className="flexBox">
+            {this.props.items ?
+              this.props.items.map(i => {
+                if(i.isActive && i.seller !== this.props.userAccount){
+                  return (
+                    <div className="flexItem">
+                      <Link to={`/buy/${i.id}`} style={{ textDecoration: 'none' }}>
+                        <div className="imgContainer" >
+                          <Image className="itemImg" src={"https://ipfs.io/ipfs/" + i.ipfsHash} responsive/>
+                        </div>
+                        <h3 className="title">{i.title}</h3>
+                        <Table>
+                          <thead>
+                            <tr>
+                              <th>Slot Price</th>
+                              <th>Slots Remaining</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th>{i.slotPrice} wei</th>
+                              <th>{i.slotCount - i.buyers.length}</th>
+                            </tr>
+                          </tbody>
+                        </Table>
+                      </Link>
+                    </div>
+                  )
+                return null;
+              }
+              })
+            :
+              null
             }
-            })
-          :
-            null
-          }
+        </div>
       </div>
+      
   );
   }
 }
