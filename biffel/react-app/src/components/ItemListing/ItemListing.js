@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Panel, Table, Thumbnail} from 'react-bootstrap';
+import {Panel, Table, Thumbnail, Image} from 'react-bootstrap';
 import './ItemListing.css'
 
 // The FullRoster iterates over all of the players and creates
@@ -16,55 +16,33 @@ class ItemListing extends Component{
 
   render(){
     return (
-      <div>
+      <div className="flexBox">
           {this.props.items ?
             this.props.items.map(i => {
               if(i.isActive && i.seller !== this.props.userAccount){
                 return (
-                  <Link to={`/buy/${i.id}`} style={{ textDecoration: 'none' }}>
-                    <Thumbnail src={"https://ipfs.io/ipfs/" + i.ipfsHash} alt="242x200">
-                      <h3>{i.title}</h3>
-                      {this.props.userAccount !== i.seller ?
-                          (
-                            <p>Seller: {i.seller}</p>
-                          )
-                        :
-                          (
-                            <p>Seller: You</p>
-                          )
-                        }
-
-                        <Table>
-                          <thead>
-                            <tr>
-                              <th>Slot Price</th>
-                              <th>Slots Remaining</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <th>{i.slotPrice} wei</th>
-                              <th>{i.slotCount - i.buyers.length}</th>
-                            </tr>
-                          </tbody>
-                        </Table>
-
-                        {this.props.userAccount !== i.seller ?
-                          (
-                            <div>
-                              <Panel bsStyle="primary">
-                                <Panel.Heading>
-                                  <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
-                                </Panel.Heading>
-                                <Panel.Body>{getSlotsOwned(i.buyers, this.props.userAccount)}</Panel.Body>
-                              </Panel>
-                            </div>
-                          )
-                        :
-                          null
-                        }
-                    </Thumbnail>
-                  </Link>
+                  <div className="flexItem">
+                    <Link to={`/buy/${i.id}`} style={{ textDecoration: 'none' }}>
+                      <div className="imgContainer" >
+                        <Image className="itemImg" src={"https://ipfs.io/ipfs/" + i.ipfsHash} responsive/>
+                      </div>
+                      <h3 className="title">{i.title}</h3>
+                      <Table>
+                        <thead>
+                          <tr>
+                            <th>Slot Price</th>
+                            <th>Slots Remaining</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>{i.slotPrice} wei</th>
+                            <th>{i.slotCount - i.buyers.length}</th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </Link>
+                  </div>
                 )
               return null;
             }
