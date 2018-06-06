@@ -6,6 +6,7 @@ contract BiffelContract {
     
     struct Biffel {
         string biffelTitle;
+        string biffelIPFSHash;
         uint biffelID;
         address seller;
         address[] buyers;
@@ -66,12 +67,12 @@ contract BiffelContract {
         biffelCount = 0;
     }
 
-    function createBiffel(string title, uint32 _slotCount, uint256 _slotPrice, uint256 _bounty) public returns (uint) {
+    function createBiffel(string title, string ipfshash, uint32 _slotCount, uint256 _slotPrice, uint256 _bounty) public returns (uint) {
         uint _biffelID = biffelCount;
 
         biffelCount += 1;
         
-        Biffel memory biffel = Biffel(title, _biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,_bounty,0,address(0),false, true);
+        Biffel memory biffel = Biffel(title, ipfshash, _biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,_bounty,0,address(0),false, true);
         
         biffels[_biffelID] = biffel;
 
@@ -164,8 +165,12 @@ contract BiffelContract {
     //public getters for Biffel struct variables
     //requires biffelIDs
     
-    function getBiffelString(uint256 _biffelID) public view returns (string title){
+    function getBiffelTitle(uint256 _biffelID) public view returns (string title){
         return biffels[_biffelID].biffelTitle;
+    }
+
+    function getBiffelIPFSHash(uint256 _biffelID) public view returns (string IPFSHash){
+        return biffels[_biffelID].biffelIPFSHash;
     }
     
     function getBiffelSeller(uint256 _biffelID) public view returns (address seller){

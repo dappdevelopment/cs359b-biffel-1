@@ -6,6 +6,7 @@ import initiateBiffel from '../../actions/initiateBiffel';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { Button, FormGroup, FormControl, ControlLabel, Alert, Panel, Radio } from "react-bootstrap";
+import './DetailedItem.css';
 
 class DetailedItem extends Component {
   constructor(props) {
@@ -69,18 +70,18 @@ class DetailedItem extends Component {
     var item = this.props.items[id]
     if(item.winner){
       return (
-        <Panel>
+        <Panel bsStyle="success">
           <Panel.Heading>
             <Panel.Title>{`${item.title} (#${item.id})`}</Panel.Title>
           </Panel.Heading>
           <Panel.Body>
-            <Panel>
+            <Panel bsStyle="success">
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Winner'}</Panel.Title>
               </Panel.Heading>
               <Panel.Body>{item.winner}</Panel.Body>
             </Panel>
-            <Panel>
+            <Panel bsStyle="success">
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Result'}</Panel.Title>
               </Panel.Heading>
@@ -92,18 +93,37 @@ class DetailedItem extends Component {
     }
     return (
       <div>
-        <Panel>
+        <div className="detail">
+          <div className={`sk-cube-grid ${this.props.loading ? '' : 'off'}`}>
+            <div className="sk-cube sk-cube1"></div>
+            <div className="sk-cube sk-cube2"></div>
+            <div className="sk-cube sk-cube3"></div>
+            <div className="sk-cube sk-cube4"></div>
+            <div className="sk-cube sk-cube5"></div>
+            <div className="sk-cube sk-cube6"></div>
+            <div className="sk-cube sk-cube7"></div>
+            <div className="sk-cube sk-cube8"></div>
+            <div className="sk-cube sk-cube9"></div>
+          </div>
+        </div>
+        <Panel className={`${this.props.loading ? 'off' : ''}`} bsStyle="primary">
           <Panel.Heading>
             <Panel.Title>{`${item.title} (#${item.id})`}</Panel.Title>
           </Panel.Heading>
           <Panel.Body>
-            <Panel>
+            {item.ipfsHash !== "" ?
+              ( <img src={"https://ipfs.io/ipfs/" + item.ipfsHash}></img>
+              )
+            :
+              null
+            }
+            <Panel bsStyle="primary">
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Slot Price'}</Panel.Title>
               </Panel.Heading>
-              <Panel.Body>{item.slotPrice}</Panel.Body>
+              <Panel.Body>{item.slotPrice} wei</Panel.Body>
             </Panel>
-            <Panel>
+            <Panel bsStyle="primary">
               <Panel.Heading>
                 <Panel.Title componentClass="h2">{'Slots Remaining'}</Panel.Title>
               </Panel.Heading>
@@ -113,7 +133,7 @@ class DetailedItem extends Component {
             {this.props.userAccount !== item.seller ?
               (
                 <div>
-                  <Panel>
+                  <Panel bsStyle="primary">
                     <Panel.Heading>
                       <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
                     </Panel.Heading>
@@ -128,6 +148,24 @@ class DetailedItem extends Component {
             {this.displayInitiateBiffelButton()}
           </Panel.Body>
         </Panel>
+        {this.props.error && !this.props.success ?
+            (
+              <Alert bsStyle='danger'>
+                {this.props.error}
+              </Alert>
+            )
+            :
+            null
+          }
+          {this.props.success && !this.props.error ?
+            (
+              <Alert bsStyle='success'>
+                {'Slot bought successfully'}
+              </Alert>
+            )
+            :
+            null
+          }
       </div>
     )
   }
@@ -153,7 +191,10 @@ function mapStateToProps(state) {
     web3: state.web3.web3,
     contract: state.web3.contract,
     userAccount: state.web3.userAccount,
-    blockNumber: state.web3.blockNumber
+    blockNumber: state.web3.blockNumber,
+    loading: state.buySlot.loading,
+    error: state.buySlot.error,
+    success: state.buySlot.success,
   };
 }
 

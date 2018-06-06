@@ -1,0 +1,19 @@
+#MetmaskErrorLogo {
+	width: 50px;
+	margin-bottom: 5px;
+}
+
+#MetamaskErrorTitle {
+	margin-top: 5px;
+	font-family: 'Montserrat';
+}
+
+.MetamaskError {
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	left:50%;
+ 	top:50%;
+ 	transform: translate(-50%, -50%);
+ 	align-items: center;
+}

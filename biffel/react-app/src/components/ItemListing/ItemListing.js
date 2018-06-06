@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Panel, Table} from 'react-bootstrap';
+import {Panel, Table, Thumbnail} from 'react-bootstrap';
+import './ItemListing.css'
 
 // The FullRoster iterates over all of the players and creates
 // a link to their profile page.
@@ -20,16 +21,10 @@ class ItemListing extends Component{
             this.props.items.map(i => {
               if(i.isActive && i.seller !== this.props.userAccount){
                 return (
-                  <Link to={`/buy/${i.id}`}>
-                    <Panel>
-                      <Panel.Heading>
-                        <Panel.Title componentClass="h3">
-                          <h3>{i.title}</h3>
-                        </Panel.Title>
-                      </Panel.Heading>
-                      <Panel.Body>
-
-                        {this.props.userAccount !== i.seller ?
+                  <Link to={`/buy/${i.id}`} style={{ textDecoration: 'none' }}>
+                    <Thumbnail src={"https://ipfs.io/ipfs/" + i.ipfsHash} alt="242x200">
+                      <h3>{i.title}</h3>
+                      {this.props.userAccount !== i.seller ?
                           (
                             <p>Seller: {i.seller}</p>
                           )
@@ -43,14 +38,12 @@ class ItemListing extends Component{
                           <thead>
                             <tr>
                               <th>Slot Price</th>
-                              <th>Initial Slot Count</th>
                               <th>Slots Remaining</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <th>{i.slotPrice}</th>
-                              <th>{i.slotCount}</th>
+                              <th>{i.slotPrice} wei</th>
                               <th>{i.slotCount - i.buyers.length}</th>
                             </tr>
                           </tbody>
@@ -59,7 +52,7 @@ class ItemListing extends Component{
                         {this.props.userAccount !== i.seller ?
                           (
                             <div>
-                              <Panel>
+                              <Panel bsStyle="primary">
                                 <Panel.Heading>
                                   <Panel.Title componentClass="h2">{'Slots Owned'}</Panel.Title>
                                 </Panel.Heading>
@@ -70,8 +63,7 @@ class ItemListing extends Component{
                         :
                           null
                         }
-                      </Panel.Body>
-                    </Panel>
+                    </Thumbnail>
                   </Link>
                 )
               return null;
