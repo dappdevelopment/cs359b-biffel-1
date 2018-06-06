@@ -17,7 +17,7 @@ export default function fetchItems(contract, userAccount) {
           contract.methods.getBiffelBalance(id).call({from: userAccount}),
           contract.methods.getBiffelBounty(id).call({from: userAccount}),
           contract.methods.getBiffelStartBlock(id).call({from: userAccount}),
-          contract.methods.getBiffelBountyPaid(id).call({from: userAccount}),
+          contract.methods.getBiffelBountyPaidTo(id).call({from: userAccount}),
           contract.methods.getBiffelIsActive(id).call({from: userAccount}),
           contract.methods.getBiffelTitle(id).call({from: userAccount}),
           contract.methods.getBiffelWinner(id).call({from: userAccount}),
@@ -39,7 +39,7 @@ export default function fetchItems(contract, userAccount) {
         item['balance'] = parseInt(result[i][4])
         item['bounty'] = parseInt(result[i][5])
         item['startBlock'] = parseInt(result[i][6])
-        item['bountyPaid'] = parseInt(result[i][7])
+        item['bountyPaid'] = result[i][7]
         item['isActive'] = result[i][8]
         item['title'] = result[i][9]
         item['winner'] = (result[i][10] === '0x0000000000000000000000000000000000000000' ? null : result[i][10])
