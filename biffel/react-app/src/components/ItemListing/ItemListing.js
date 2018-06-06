@@ -46,8 +46,8 @@ class ItemListing extends Component{
                   return (
                     <div className="flexItem">
                       <Link to={`/buy/${i.id}`} style={{ textDecoration: 'none' }}>
-                        <div className="imgContainer" >
-                          <Image className="itemImg" src={"https://ipfs.io/ipfs/" + i.ipfsHash} responsive/>
+                        <div className="imgContainerIL" >
+                          <Image className="itemImgIL" src={"https://ipfs.io/ipfs/" + i.ipfsHash} responsive/>
                         </div>
                         <h3 className="title">{i.title}</h3>
                         <Table>

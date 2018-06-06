@@ -71,3 +71,67 @@
 .off {
 	display: none;
 }
+
+.imgContainerDI {
+  height: 300px;  
+  /*border-style: solid;
+  border-width: 1px;
+  border-collapse: black;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.itemImgDI {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.DIFlexContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.DIFlexContainerInfo {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: flex-start;
+}
+
+.DIFlexContainerTables {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-center;
+  height: 100%;
+}
+
+th {
+  text-align: center;
+  width: 33%;
+}
+
+.panel-body {
+  text-align: center;
+}
+
+.DITab1 {
+  height: 100%;
+  flex-grow: 2;
+}
+
+.DITabs {
+  height: 100%;
+}
+
+.DIListGroup {
+  max-height: 260px;
+  overflow: scroll;
+}
+
+.divLoaderTitle {
+  display: flex;
+  justify-content: center;
+}
