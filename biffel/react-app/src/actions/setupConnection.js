@@ -44,6 +44,7 @@ export default function setupConnection() {
       dispatch({type: SETUP_CONNECTION_SUCCESS, contract, userAccount})
 
       var networkURI;
+      console.log('networkId', networkId);
       switch(networkId){
         case 1:
           networkURI = 'wss://mainnet.infura.io/ws';
