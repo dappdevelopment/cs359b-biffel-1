@@ -72,7 +72,7 @@ contract BiffelContract {
 
         biffelCount += 1;
         
-        Biffel memory biffel = Biffel(title, ipfshash, _biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,_bounty,0,address(0),address(0), true);
+        Biffel memory biffel = Biffel(title, ipfshash, _biffelID,msg.sender,new address[](0),_slotCount,_slotPrice,0 wei,_bounty,block.number,address(0),address(0), true);
         
         biffels[_biffelID] = biffel;
 
