@@ -12,7 +12,7 @@ import './ItemListing.css'
 class ItemListing extends Component{
   constructor(props){
     super(props);
-  
+
     this.state = {
         value: '',
         currentItems: this.props.items
@@ -41,10 +41,10 @@ class ItemListing extends Component{
 
         <div className="flexBox">
             {this.props.items ?
-              this.props.items.map(i => {
+              this.props.items.map((i, index) => {
                 if(i.isActive && i.seller !== this.props.userAccount){
                   return (
-                    <div className="flexItem">
+                    <div key={index} className="flexItem">
                       <Link to={`/buy/${i.id}`} style={{ textDecoration: 'none' }}>
                         <div className="imgContainerIL" >
                           <Image className="itemImgIL" src={"https://ipfs.io/ipfs/" + i.ipfsHash} responsive/>
@@ -75,7 +75,7 @@ class ItemListing extends Component{
             }
         </div>
       </div>
-      
+
   );
   }
 }
