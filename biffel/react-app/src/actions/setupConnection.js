@@ -36,7 +36,7 @@ export default function setupConnection() {
         throw new Error("Please Log In To Metamask")
       }
       if ((!(networkId in contractData.networks)) || networkId !== 4){
-        throw new Error("Please Log In into Rinkeby");
+        throw new Error("Please Switch Metamask Network To Rinkeby");
       }
       contractAddress = contractData.networks[networkId].address;
       console.log('contractAddress', contractAddress);
