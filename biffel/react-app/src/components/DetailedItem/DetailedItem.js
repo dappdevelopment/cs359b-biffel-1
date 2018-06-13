@@ -176,8 +176,29 @@ class DetailedItem extends Component {
                           </tr>
                         </tbody>
                       </Table>
+                      {item.slotCount - item.buyers.length == 0 ?
+                        (
+                          <Table>
+                            <thead>
+                              <tr>
+                                <th>Start BlockNumber</th>
+                                <th>Current BlockNumber</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th>{item.startBlock}</th>
+                                <th>{this.props.blockNumber}</th>
+                              </tr>
+                            </tbody>
+                          </Table>
+                        )
+                      :
+                        null
+                      }
                     </div>
                   </Tab>
+
 
                   <Tab eventKey={2} title="Buyers" enabled>
                     <ListGroup className="DIListGroup">

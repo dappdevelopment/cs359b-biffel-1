@@ -37,12 +37,26 @@ class App extends Component{
         </div>
       )
     }
+    if(this.props.web3 && this.props.web3.error){
+      return (
+        <div className="MetamaskError">
+          <img id="MetmaskErrorLogo" src="https://thumb.ibb.co/ctNaSo/34497858_1998022223846047_6463238276474994688_n.png"></img>
+          <h3 id="MetamaskErrorTitle"> biffel </h3>
+          <p>{this.props.web3.error}</p>
+          {this.props.web3.error === 'Please Log In To Metamask' ?
+            <a href="https://metamask.io/"> Learn More </a>
+          :
+            null
+          }
+        </div>
+      )
+    }
     return (
       <div className="MetamaskError">
         <img id="MetmaskErrorLogo" src="https://thumb.ibb.co/ctNaSo/34497858_1998022223846047_6463238276474994688_n.png"></img>
         <h3 id="MetamaskErrorTitle"> biffel </h3>
-        <p> Please Log In To Metamask </p>
-        <a href="https://metamask.io/"> Learn More </a>
+        <p>{'Please Log In To Metamask'}</p>
+        
       </div>
     )
   }

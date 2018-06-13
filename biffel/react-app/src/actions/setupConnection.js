@@ -33,10 +33,10 @@ export default function setupConnection() {
       var accounts = results[2];      // resolved value of accountsPromise
       userAccount = accounts[0];
       if(userAccount === undefined){
-        throw new Error("User not logged into MetaMask")
+        throw new Error("Please Log In To Metamask")
       }
-      if (!(networkId in contractData.networks)) {
-        throw new Error("Contract not found in selected Ethereum network on MetaMask.");
+      if ((!(networkId in contractData.networks)) || networkId !== 4){
+        throw new Error("Please Log In into Rinkeby");
       }
       contractAddress = contractData.networks[networkId].address;
       console.log('contractAddress', contractAddress);
